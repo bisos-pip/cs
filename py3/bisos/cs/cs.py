@@ -106,6 +106,12 @@ import enum
 from bisos import io
 from bisos import bpf
 
+from bisos.cs import param
+from bisos.cs import arg
+from bisos.cs import runArgs
+
+
+
 import argparse
 
 # from bisos.bpo import bpo
@@ -1769,372 +1775,6 @@ def cmndParamsMandatoryAssert(paramsList):
 """
 
 """
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  commonExamples    [[elisp:(org-cycle)][| ]]
-"""
-class commonExamples(Cmnd):
-    """Print common ICM examples."""
-
-    @io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-    def cmnd(self,
-            interactive=True,
-    ):
-        """Provide a menu of common icm examples.
-"""
-        G_myFullName = sys.argv[0]
-        G_myName = os.path.basename(G_myFullName)
-
-        cmndExampleMenuChapter('/Intercatively Invokable Module (ICM) General Usage Model/')
-
-        print(( G_myName + " --help" ))
-        print(( G_myName + " -i model" ))
-        print(( G_myName + " -i icmHelp" ))
-        print(( G_myName + " -i icmOptionsExamples" ))
-        print(( G_myName + " -i icmInfo" ))
-        print(( G_myName + " -i icmInUpdate ./var" ))
-        print(( G_myName + " -i cmndInfo cmndName" ))
-        print(( G_myName + " -i cmndInfo cmndInfo" ))
-        print(( G_myName + " -i devExamples" ))
-        print(( G_myName + " -i describe" ))
-        print(( G_myName + " -i describe" + " |" + " emlVisit"))
-        print(( G_myName + " -i examples" ))
-        print(( G_myName + " -i examples" + " |" + " icmToEmlVisit"))
-
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  G_commonBriefExamples    [[elisp:(org-cycle)][| ]]
-"""
-#@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-def G_commonBriefExamples(interactive=False):
-
-     G_myFullName = sys.argv[0]
-     G_myName = os.path.basename(G_myFullName)
-
-     cmndExampleMenuChapter('/Intercatively Invokable Module (ICM) Brief Usage Model/')
-
-     print(( G_myName + " -i commonExamples" + "    # Help, Model, icmOptionsExample"))
-     print(( G_myName + " -i describe" + " |" + " emlVisit"))
-     print(( G_myName + " -i examples" + " |" + " icmToEmlVisit"))
-     print(( G_myName + " -i visit"))
-     print(( """emlVisit -v -n showRun -i gotoPanel """ + G_myFullName))
-
-     cmndExampleMenuChapter('*ICM Blee Player Invokations*')
-     io.ann.ANN_write("icmPlayer.sh -h -v -n showRun -i grouped {G_myName}".format(G_myName=G_myName))
-
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  devExamples    [[elisp:(org-cycle)][| ]]
-"""
-@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-def devExamples(interactive=False):
-
-     G_myName = sys.argv[0]
-
-     print("======== Development =========")
-
-     print(("python -m trace -l " + G_myName + " | egrep -v " + '\'/python2.7/|\<string\>\''))
-     print(("python -m trace -l " + G_myName))
-     print(("python -m trace -t " + G_myName))
-
-
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  icmOptionsExamples    [[elisp:(org-cycle)][| ]]
-"""
-
-class icmOptionsExamples(Cmnd):
-    """Print a summary of the ICM Model."""
-
-    @io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-    def cmnd(self,
-            interactive=True,
-    ):
-
-        G_myFullName = sys.argv[0]
-        G_myName = os.path.basename(G_myFullName)
-
-        print("==== cmndEx Built-In Feature Examples =====")
-
-        print(( G_myName + " -i icm.cmndExample arg1 arg2" ))
-        print(( G_myName + " -v 20" + " -i icm.cmndExample arg1 arg2" ))
-        print(( G_myName + " -v 1" + " -i icm.cmndExample arg1 arg2" ))
-        print(( G_myName + " --runMode dryRun" + " -i icm.cmndExample arg1 arg2" ))
-        print(( G_myName + " -v 1" + " --callTrackings monitor-" + " -i icm.cmndExample arg1 arg2" ))
-        print(( G_myName + " -v 1" + " --callTrackings monitor+" + " --callTrackings invoke+" + " -i icm.cmndExample arg1 arg2" ))
-        print(( G_myName + " -v 1" + " --callTrackings monitor-" + " --callTrackings invoke-" + " -i icm.cmndExample arg1 arg2" ))
-        print(( G_myName + " --docstring" + " -i describe" ))
-
-
-
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  icmExampleMyName    [[elisp:(org-cycle)][| ]]
-"""
-@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-def icmExampleMyName(myName, myFullName):
-    """
-    """
-    print(("#######  " + '  *' + myName + '*  ' + "  ##########"))
-    print(("=======  " + myFullName + "  ==========="))
-
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || CMND       ::  ex_gCommon    [[elisp:(org-cycle)][| ]]
-"""
-@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-def ex_gCommon():
-    """."""
-    G = IcmGlobalContext()
-    icmExampleMyName(G.icmMyName(), G.icmMyFullName())
-    G_commonBriefExamples()
-    #G_commonExamples()
-
-"""
-*  [[elisp:(org-cycle)][| ]]  /example Seps/       :: *cmndExample -- Simple Usage Example -- Seperators* [[elisp:(org-cycle)][| ]]
-"""
-
-
-
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  cmndExampleMenuChapter    [[elisp:(org-cycle)][| ]]
-"""
-@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-def cmndExampleMenuChapter(title):
-    """
-    """
-    print(("#######  " + title + "  ##########"))
-
-
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  cmndExampleMenuSection    [[elisp:(org-cycle)][| ]]
-"""
-@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-def cmndExampleMenuSection(title):
-     """
-     """
-     print(("=======  " + title + "  =========="))
-
-
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  cmndExampleMenuSubSection    [[elisp:(org-cycle)][| ]]
-"""
-@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-def cmndExampleMenuSubSection(title):
-     """  """
-     print(("%%%%%%%  " + title + "  %%%%%%%%%%%"))
-
-
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  cmndExampleMenuItem    [[elisp:(org-cycle)][| ]]
-"""
-@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-def cmndExampleMenuItem(
-        commandLine,
-        icmName=None,          # Defaults to G_myName
-        verbosity='basic',
-        comment='none',
-        icmWrapper=None,
-):
-    """ vebosity is one of: 'none', 'little', 'some',  'full'
-    """
-    G_myFullName = sys.argv[0]
-    G_myName = os.path.basename(G_myFullName)
-
-    if comment == 'none':
-        fullCommandLine = commandLine
-    else:
-        fullCommandLine = commandLine + '         ' + comment
-
-    if icmName:
-        G_myName = icmName
-
-    if icmWrapper:
-        G_myName = icmWrapper + " " + G_myName
-
-    if verbosity == 'none':
-        #print( G_myName + " -v 30" + " " + fullCommandLine)
-        print(( G_myName + " " + fullCommandLine))
-    elif verbosity == 'basic':
-        print(( G_myName + " -v 1"  + " " + fullCommandLine ))
-    elif verbosity == 'little':
-        print(( G_myName + " -v 20" + " " + fullCommandLine ))
-    elif verbosity == 'some':
-        print(( G_myName + " -v 1"  + " --callTrackings monitor-" + " --callTrackings invoke-" + " " + fullCommandLine ))
-    elif verbosity == 'full':
-        print(( G_myName + " -v 1"  + " --callTrackings monitor+" + " --callTrackings invoke+" + " " + fullCommandLine ))
-    else:
-        return EH_critical_oops('')
-
-
-
-####+BEGINNOT: bx:icm:py3:func :funcName "icmCmndLine" :funcType "str" :retType "" :deco "default" :argsList ""
-"""
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-str   :: /icmCmndLine/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-def icmCmndLine(
-####+END:
-        cmndName,    # String
-        cmndPars,    # Dictionary
-        cmndArgs,    # String
-        verbosity='basic',
-        comment='none',
-        icmWrapper=None,
-        icmName=None,
-):
-    """
-** Returns cmndLine as string
-    """
-
-    cmndParsStr = ""
-    for key in cmndPars:
-        cmndParsStr += """--{parName}="{parValue}" """.format(parName=key, parValue=cmndPars[key])
-
-    if not icmName:
-        icmName=G.icmMyName()
-
-    dashV = icmVerbosityTagToDashV(verbosity)
-
-    cmndLine = """{icmName} {dashV} {cmndParsStr} -i {cmndName} {cmndArgs}""".format(
-        icmName=icmName,
-        dashV=dashV,
-        cmndName=cmndName, cmndParsStr=cmndParsStr, cmndArgs=cmndArgs
-    )
-    return cmndLine
-
-####+BEGINNOT: bx:icm:py3:func :funcName "icmVerbosityTagToDashV" :funcType "str" :retType "" :deco "default" :argsList ""
-"""
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-str   :: /icmVerbosityTagToDashV/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-def icmVerbosityTagToDashV(
-####+END:
-        verbosity,
-) -> str:
-    result = ""
-
-    if verbosity == 'none':
-        result = ""
-    elif verbosity == 'basic':
-        result = " -v 1"
-    elif verbosity == 'little':
-        result = " -v 20"
-    elif verbosity == 'some':
-        result = " -v 1"
-    elif verbosity == 'full':
-        result = " -v 1 --callTrackings monitor+ --callTrackings invoke+"
-    else:
-        return EH_critical_oops('')
-    return result
-
-
-
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  ex_gCmndMenuItem    [[elisp:(org-cycle)][| ]]
-"""
-@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-def ex_gExtCmndMenuItem(
-        cmndName,    # String
-        cmndPars,    # Dictionary
-        cmndArgs,    # String
-        verbosity='basic',
-        comment='none',
-        icmWrapper=None,
-        icmName=None,
-):
-    """ vebosity is one of: 'none', 'little', 'some',  'full'
-    """
-
-    cmndParsStr = ""
-    for key in cmndPars:
-        cmndParsStr += """--{parName}="{parValue}" """.format(parName=key, parValue=cmndPars[key])
-
-    cmndLine = """{cmndParsStr} -i {cmndName} {cmndArgs}""".format(
-        cmndName=cmndName, cmndParsStr=cmndParsStr, cmndArgs=cmndArgs
-    )
-
-    cmndExampleMenuItem(
-        commandLine=cmndLine,
-        verbosity=verbosity,
-        comment=comment,
-        icmWrapper=icmWrapper,
-        icmName=icmName,
-    )
-
-
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  ex_gCmndMenuItem    [[elisp:(org-cycle)][| ]]
-"""
-@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-def ex_gCmndMenuItem(
-        cmndName,    # String
-        cmndPars,    # Dictionary
-        cmndArgs,    # String
-        verbosity='basic',
-        comment='none',
-        icmWrapper=None,
-        icmName=None,
-):
-    """ vebosity is one of: 'none', 'little', 'some',  'full'
-    """
-
-    cmndParsStr = ""
-    for key in cmndPars:
-        cmndParsStr += """--{parName}="{parValue}" """.format(parName=key, parValue=cmndPars[key])
-
-    cmndLine = """{cmndParsStr} -i {cmndName} {cmndArgs}""".format(
-        cmndName=cmndName, cmndParsStr=cmndParsStr, cmndArgs=cmndArgs
-    )
-
-    cmndExampleMenuItem(
-        commandLine=cmndLine,
-        verbosity=verbosity,
-        comment=comment,
-        icmWrapper=icmWrapper,
-        icmName=icmName,
-    )
-
-
-####+BEGIN: bx:dblock:python:func :funcName "ex_gExecMenuItem" :funcType "anyOrNone" :retType "bool" :deco "" :argsList "execLine wrapper=None comment='none'"
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children)][|V]] [[elisp:(org-tree-to-indirect-buffer)][|>]] [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func-anyOrNone :: /ex_gExecMenuItem/ retType=bool argsList=(execLine wrapper=None comment='none')  [[elisp:(org-cycle)][| ]]
-"""
-def ex_gExecMenuItem(
-    execLine,
-    wrapper=None,
-    comment='none',
-):
-####+END:
-    """
-** Output an Non-ICM menu line.
-"""
-    if comment == 'none':
-        fullCommandLine = execLine
-    else:
-        fullCommandLine = execLine + '         ' + comment
-
-    if wrapper:
-        fullCommandLine = wrapper + fullCommandLine
-
-    print(fullCommandLine)
-
-
-
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  cmndExampleExternalCmndItem    [[elisp:(org-cycle)][| ]]
-"""
-@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-def cmndExampleExternalCmndItem(commandLine,
-                               verbosity='basic',
-                               comment='none'
-                               ):
-    """ vebosity is one of: 'none', 'little', 'some',  'full'
-                               """
-    #G_myFullName = sys.argv[0]
-    #G_myName = os.path.basename(G_myFullName)
-
-    if comment == 'none':
-        fullCommandLine = commandLine
-    else:
-        fullCommandLine = commandLine + '         ' + comment
-
-    print( fullCommandLine )
-
-"""
 *  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  cmndArgsLengthIsNotValid    [[elisp:(org-cycle)][| ]]
 """
 @io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
@@ -2455,8 +2095,8 @@ def G_mainWithClass(
             return
 
         if outcomeError:
-            if outcome.error != OpError.Success:
-                if outcome.error == OpError.CmndLineUsageError:
+            if outcome.error != bpf.op.OpError.Success:
+                if outcome.error == bpf.op.OpError.CmndLineUsageError:
                     sys.stderr.write(
                         "{myName}.{cmndName} Command Line Failed: Error={status} -- {errInfo}\n".
                         format(myName=G.icmMyName(),
@@ -2583,14 +2223,14 @@ def invokesProcAllClassed(
         #
 
         # BUG, NOTYET, EH_problem goes to -v 20
-        EH_problem_info("Invalid Action: {invoke}"
+        io.eh.EH_problem_info("Invalid Action: {invoke}"
                         .format(invoke=invoke))
 
         print(("Invalid Action: {invoke}"
                         .format(invoke=invoke)))
 
-        outcome = OpOutcome()
-        outcome.error = OpError.CmndLineUsageError
+        outcome = bpf.op.Outcome()
+        outcome.error = bpf.op.OpError.CmndLineUsageError
         outcome.errInfo = "Invalid Action: {invoke}".format(invoke=invoke)
 
     perfModel = icmRunArgs.perfModel  # This can be a "None" string but not a None
@@ -4263,7 +3903,6 @@ Usage Pattern:
 
 
     return True
-
 
 
 
