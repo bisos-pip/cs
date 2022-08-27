@@ -26,6 +26,7 @@
 * *[[elisp:(org-cycle)][| Particulars-csInfo |]]*
 #+end_org """
 import typing
+from bisos.cs import globalContext
 icmInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['bpoGpg'], }
 icmInfo['version'] = '202208073306'
 icmInfo['status']  = 'inUse'
@@ -114,6 +115,9 @@ import argparse
 
 # from bisos import bpf
 
+#from bisos.cs.globalContext import globalContext
+from bisos import cs
+
 # import gnupg
 
 import logging
@@ -124,42 +128,25 @@ import logging
 # import pykeepass
 #
 
-####+BEGIN: bx:icm:py3:func :funcName "read" :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
-""" #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /read/  [[elisp:(org-cycle)][| ]]
-#+end_org """
-def read(
-####+END:
-) -> str:
-    """ #+begin_org
-** [[elisp:(org-cycle)][| *DocStr | ] Reads stdin. Returns a string. -- Uses mutable list.
-    #+end_org """
-
-    stdinAsStr = ""
-    #if select.select([sys.stdin, ], [], [], 0.0)[0]:
-    if not sys.stdin.isatty():
-
-        msgAsList = []
-        for line in sys.stdin:
-            msgAsList.append(str(line))
-
-        stdinAsStr = str("".join(msgAsList),)
-
-    return stdinAsStr
 
 
 """
 *  [[elisp:(org-cycle)][| ]]  /icmRunArgs/         :: *IcmRunArgs_ -- In support of Run Time ICM Options --  icmRunArgs_isOptionXxSet()* [[elisp:(org-cycle)][| ]]
 """
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  icmRunArgs_isCallTrackingMonitorOff    [[elisp:(org-cycle)][| ]]
-"""
 
-def icmRunArgs_isCallTrackingMonitorOff():
-    """Activated with --callTrackings monitor-.
-    """
+####+BEGIN: bx:icm:py3:func :funcName "isCallTrackingMonitorOff" :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /isCallTrackingMonitorOff/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def isCallTrackingMonitorOff(
+####+END:
+) -> bool:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ] Activated with --callTrackings monitor-.
+    #+end_org """
 
-    G = IcmGlobalContext()
+    #G = cs.IcmGlobalContext()
+    G = cs.globalContext.get()
     icmRunArgs = G.icmRunArgsGet()
     retVal = False
 
@@ -168,15 +155,20 @@ def icmRunArgs_isCallTrackingMonitorOff():
             retVal = True
 
     return retVal
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  icmRunArgs_isCallTrackingMonitorOn    [[elisp:(org-cycle)][| ]]
-"""
 
-def icmRunArgs_isCallTrackingMonitorOn():
-    """Activated with --callTrackings monitor-.
-    """
+####+BEGIN: bx:icm:py3:func :funcName "isCallTrackingMonitorOn" :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /isCallTrackingMonitorOn/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def isCallTrackingMonitorOn(
+####+END:
+) -> bool:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ] Activated with --callTrackings monitor+.
+    #+end_org """
 
-    G = IcmGlobalContext()
+    #G = cs.IcmGlobalContext()
+    G = cs.globalContext.get()
     icmRunArgs = G.icmRunArgsGet()
     retVal = False
 
@@ -191,14 +183,19 @@ def icmRunArgs_isCallTrackingMonitorOn():
             retVal = True
 
     return retVal
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  icmRunArgs_isCallTrackingInvokeOff    [[elisp:(org-cycle)][| ]]
-"""
 
-def icmRunArgs_isCallTrackingInvokeOff():
-    """Activated with --callTrackings monitor-.
-    """
-    G = IcmGlobalContext()
+####+BEGIN: bx:icm:py3:func :funcName "isCallTrackingInvokeOff" :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /isCallTrackingInvokeOff/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def isCallTrackingInvokeOff(
+####+END:
+) -> bool:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ] Activated with --callTrackings invoke-.
+    #+end_org """
+    #G = cs.IcmGlobalContext()
+    G = globalContext.get()
     icmRunArgs = G.icmRunArgsGet()
 
     retVal = False
@@ -209,14 +206,20 @@ def icmRunArgs_isCallTrackingInvokeOff():
 
     return retVal
 
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  icmRunArgs_isRunModeDryRun    [[elisp:(org-cycle)][| ]]
-"""
 
-def icmRunArgs_isRunModeDryRun():
-    """Activated with --runMode dryRun.
-    """
-    G = IcmGlobalContext()
+####+BEGIN: bx:icm:py3:func :funcName "isRunModeDryRun" :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /isRunModeDryRun/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def isRunModeDryRun(
+####+END:
+) -> bool:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ] Activated with --runMode dryRun.
+    #+end_org """
+
+    #G = cs.IcmGlobalContext()
+    G = cs.globalContext.get()
     icmRunArgs = G.icmRunArgsGet()
 
     retVal = False
@@ -226,14 +229,19 @@ def icmRunArgs_isRunModeDryRun():
 
     return retVal
 
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  icmRunArgs_isRunModeDryRun    [[elisp:(org-cycle)][| ]]
-"""
+####+BEGIN: bx:icm:py3:func :funcName "verbosityLevel" :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /verbosityLevel/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def verbosityLevel(
+####+END:
+) -> int:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ] Activated with -v number.
+    #+end_org """
 
-def icmRunArgs_verbosityLevel():
-    """
-    """
-    G = IcmGlobalContext()
+    #G = cs.IcmGlobalContext()
+    G = cs.globalContext.get()
     icmRunArgs = G.icmRunArgsGet()
 
     level = icmRunArgs.verbosityLevel
@@ -246,15 +254,19 @@ def icmRunArgs_verbosityLevel():
     return level
 
 
+####+BEGIN: bx:icm:py3:func :funcName "isDocStringRequested" :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /isDocStringRequested/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def isDocStringRequested(
+####+END:
+) -> bool:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ] Activated with -i docString.
+    #+end_org """
 
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  icmRunArgs_isDocStringRequested    [[elisp:(org-cycle)][| ]]
-"""
-
-def icmRunArgs_isDocStringRequested():
-    """Activated with -i docString.
-    """
-    G = IcmGlobalContext()
+    #G = cs.IcmGlobalContext()
+    G = cs.globalContext.get()
     icmRunArgs = G.icmRunArgsGet()
 
     retVal = False
@@ -264,29 +276,44 @@ def icmRunArgs_isDocStringRequested():
 
     return retVal
 
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  icmRunArgs_loadFiles    [[elisp:(org-cycle)][| ]]
-"""
+####+BEGIN: bx:icm:py3:func :funcName "loadFiles" :comment "Actualy loads the files." :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /loadFiles/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def loadFiles(
+####+END:
+) -> None:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ] Load the python files specified with --load. Actualy loads the files.
+    #+end_org """
 
-def icmRunArgs_loadFiles():
-    """Load the python files specified with --load."""
-    G = IcmGlobalContext()
+    #G = cs.IcmGlobalContext()
+    G = cs.globalContext.get()
+    #print(f"{G}")
+    icmRunArgs = G.icmRunArgsGet()
+
+    #print(f"{icmRunArgs}")
+
+    #for this in icmRunArgs.loadFiles:
+        #cs.loadFile(this)
+
+####+BEGIN: bx:icm:py3:func :funcName "evalFiles" :comment "Unused But Perhaps Usefull." :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /evalFiles/ =Unused But Perhaps Usefull.=  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def evalFiles(
+####+END:
+) -> None:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ] "Eval Files -- Unused But Perhaps Usefull
+    #+end_org """
+
+    #G = cs.IcmGlobalContext()
+    G = cs.globalContext.get()
     icmRunArgs = G.icmRunArgsGet()
 
     for this in icmRunArgs.loadFiles:
-        loadFile(this)
-
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  icmRunArgs_evalFiles    [[elisp:(org-cycle)][| ]]
-"""
-
-def icmRunArgs_evalFiles():
-    """Eval Files -- Unused But Perhaps Usefull."""
-    G = IcmGlobalContext()
-    icmRunArgs = G.icmRunArgsGet()
-
-    for this in icmRunArgs.loadFiles:
-        TM_here('Loading: ' + this)
+        io.tm.TM_here('Loading: ' + this)
         f = open(this)
         eval(f.read()) # Caution: you must be sure of what's in that file
         f.close()

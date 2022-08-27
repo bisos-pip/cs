@@ -712,9 +712,9 @@ When interactive is false, return the list and when true print it and return the
 
 mainsClassedCmndsGlobal = None
 
-####+BEGIN: bx:cs:py3:cmnd:classHead :cmndName "cmndList_mainsMethods" :comment "" :parsMand "" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "importedCmnds mainFileName importedCmndsFilesList" :interactiveP ""
+####+BEGIN: bx:cs:py3:cmnd:classHead :cmndName "cmndList_mainsMethods" :comment "USED IN MAIN" :parsMand "" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "importedCmnds mainFileName importedCmndsFilesList" :interactiveP ""
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc    [[elisp:(outline-show-subtree+toggle)][||]] <<cmndList_mainsMethods>> parsMand= parsOpt= argsMin=0 argsMax=0 asFunc=importedCmnds mainFileName importedCmndsFilesList interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc    [[elisp:(outline-show-subtree+toggle)][||]] <<cmndList_mainsMethods>> =USED IN MAIN= parsMand= parsOpt= argsMin=0 argsMax=0 asFunc=importedCmnds mainFileName importedCmndsFilesList interactive=  [[elisp:(org-cycle)][| ]]
 #+end_org """
 class cmndList_mainsMethods(cs.Cmnd):
     cmndParamsMandatory = [ ]
@@ -737,29 +737,24 @@ class cmndList_mainsMethods(cs.Cmnd):
         if not cs.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
             return cmndOutcome
 
+        """USED IN MAIN"""
 ####+END:
         self.cmndDocStr(f""" #+begin_org
 ** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Is based on subclasses of Cmnd and which are in the main module.
 When interactive is false, return the list and when true print it and return the list.
 
 importedCmndsList was added later with icmMainProxy.
+*** TODO Should return through cmndOutcome
         #+end_org """)
-
-        return(cmndOutcome)
-
-
-        importedCmnds={},
-        mainFileName=None,
-        importedCmndsFilesList=[],
 
         global mainsClassedCmndsGlobal
 
-        allClassedCmndNames = cmndSubclassesNames()
+        allClassedCmndNames = cs.cmndSubclassesNames()
 
         if not mainFileName:
             mainFileName = sys.argv[0]
 
-        mainClasses = ucf.ast_topLevelClassNamesInFile(
+        mainClasses = bpf.ast.ast_topLevelClassNamesInFile(
             mainFileName,
         )
 
@@ -769,12 +764,12 @@ importedCmndsList was added later with icmMainProxy.
         for key, modPath in importedCmnds.items():
             if modPath.endswith('.pyc') and os.path.exists(modPath[:-1]):
                 modPath = modPath[:-1]
-            relevantClasses += ucf.ast_topLevelClassNamesInFile(modPath)
+            relevantClasses += bpf.ast.ast_topLevelClassNamesInFile(modPath)
 
         for modPath in importedCmndsFilesList:
             if modPath.endswith('.pyc') and os.path.exists(modPath[:-1]):
                 modPath = modPath[:-1]
-            relevantClasses += ucf.ast_topLevelClassNamesInFile(modPath)
+            relevantClasses += bpf.ast.ast_topLevelClassNamesInFile(modPath)
 
         mainsClassedCmnds = set.intersection(
             set(allClassedCmndNames),
@@ -782,7 +777,7 @@ importedCmndsList was added later with icmMainProxy.
         )
 
         if interactive:
-            ucf.listPrintItems(mainsClassedCmnds)
+            bpf.ast.listPrintItems(mainsClassedCmnds)
 
         mainsClassedCmndsGlobal = mainsClassedCmnds
 

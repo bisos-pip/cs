@@ -124,36 +124,12 @@ import logging
 # import pykeepass
 #
 
-####+BEGIN: bx:icm:py3:func :funcName "read" :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
+####+BEGIN: bx:icm:py3:section :title "ICM_Param: ICM Parameter (ICM_Param, ICM_ParamDict)"
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /read/  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    [[elisp:(outline-show-subtree+toggle)][||]] *ICM_Param: ICM Parameter (ICM_Param, ICM_ParamDict)*  [[elisp:(org-cycle)][| ]]
 #+end_org """
-def read(
 ####+END:
-) -> str:
-    """ #+begin_org
-** [[elisp:(org-cycle)][| *DocStr | ] Reads stdin. Returns a string. -- Uses mutable list.
-    #+end_org """
 
-    stdinAsStr = ""
-    #if select.select([sys.stdin, ], [], [], 0.0)[0]:
-    if not sys.stdin.isatty():
-
-        msgAsList = []
-        for line in sys.stdin:
-            msgAsList.append(str(line))
-
-        stdinAsStr = str("".join(msgAsList),)
-
-    return stdinAsStr
-
-
-
-####+BEGIN: bx:icm:python:section :title "ICM_Param: ICM Parameter (ICM_Param, ICM_ParamDict)"
-"""
-*  [[elisp:(beginning-of-buffer)][Top]] ################ [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *ICM_Param: ICM Parameter (ICM_Param, ICM_ParamDict)*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
-"""
-####+END:
 
 ####+BEGIN: bx:dblock:python:enum :enumName "ICM_ParamScope" :comment ""
 """ #+begin_org
@@ -169,9 +145,9 @@ class ICM_ParamScope(enum.Enum):
 # ICM_ParamScope = ucf.enum('TargetParam', 'IcmGeneralParam', 'CmndSpecificParam')
 
 ####+BEGIN: bx:dblock:python:class :className "ICM_Param" :superClass "" :comment "" :classType "basic"
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(org-tree-to-indirect-buffer)][|>]] [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Class-basic    :: /ICM_Param/ object  [[elisp:(org-cycle)][| ]]
-"""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Cls-basic  [[elisp:(outline-show-subtree+toggle)][||]] /ICM_Param/ object  [[elisp:(org-cycle)][| ]]
+#+end_org """
 class ICM_Param(object):
 ####+END:
      """Representation of an Interactively Invokable Module Parameter (ICM_Param).
@@ -344,7 +320,8 @@ description: {description}""".
 
          return fileParam
 
-     @io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+     # NOTYET 20220822 -- most likely due to a circular import
+     #@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
      def writeAsFileParam(
              self,
              parRoot=None,
@@ -400,9 +377,9 @@ description: {description}""".
              )
 
 ####+BEGIN: bx:dblock:python:class :className "ICM_ParamDict" :superClass "" :comment "" :classType "basic"
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(org-tree-to-indirect-buffer)][|>]] [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Class-basic    :: /ICM_ParamDict/ object  [[elisp:(org-cycle)][| ]]
-"""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Cls-basic  [[elisp:(outline-show-subtree+toggle)][||]] /ICM_ParamDict/ object  [[elisp:(org-cycle)][| ]]
+#+end_org """
 class ICM_ParamDict(object):
 ####+END:
      """ICM Parameters Dictionary -- Collection of ICM_Param s can be placed in ICM_ParamDict
@@ -473,14 +450,17 @@ class ICM_ParamDict(object):
 
          return
 
+####+BEGIN: bx:cs:py3:func :funcName "commonIcmParamsPrep" :funcType "extTyped" :deco ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /commonIcmParamsPrep/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def commonIcmParamsPrep(
+####+END:
+) -> None:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ] Module Common Command Line Parameters.
+    #+end_org """
 
-
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  commonIcmParamsPrep    [[elisp:(org-cycle)][| ]]
-"""
-def commonIcmParamsPrep():
-    """Module Common Command Line Parameters.
-    """
     icmParams = ICM_ParamDict()
 
     icmParams.parDictAdd(
@@ -588,39 +568,46 @@ def commonIcmParamsPrep():
 
     return icmParams
 
-
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  icmParamsToFileParamsUpdate    [[elisp:(org-cycle)][| ]]
-"""
-@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: bx:cs:py3:func :funcName "icmParamsToFileParamsUpdate" :funcType "extTyped" :deco ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /icmParamsToFileParamsUpdate/  [[elisp:(org-cycle)][| ]]
+#+end_org """
 def icmParamsToFileParamsUpdate(
+####+END:
         parRoot,
         icmParams,
-):
-     """Convert icmParams to parser
-**  [[elisp:(org-cycle)][| ]]  Subject      :: type= is missing -- [[elisp:(org-cycle)][| ]]
-     """
+) -> None:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ] Convert icmParams to parser
+    #+end_org """
 
-     LOG_here("Updating icmParams at: {parRoot}".format(parRoot=parRoot))
+    LOG_here("Updating icmParams at: {parRoot}".format(parRoot=parRoot))
 
-     for key, icmParam in icmParams.parDictGet().items():
-         if ( icmParam.argsparseShortOptGet() == None )  and ( icmParam.argsparseLongOptGet() == None ):
-             break
+    for key, icmParam in icmParams.parDictGet().items():
+        if ( icmParam.argsparseShortOptGet() == None )  and ( icmParam.argsparseLongOptGet() == None ):
+            break
 
-         icmParam.writeAsFileParam(
-             parRoot=parRoot,
-         )
+        icmParam.writeAsFileParam(
+            parRoot=parRoot,
+        )
 
-     return
+    return
 
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  cmndParamsMandatoryAssert    [[elisp:(org-cycle)][| ]]
-"""
+####+BEGIN: bx:cs:py3:func :funcName "cmndParamsMandatoryAssert" :funcType "extTyped" :deco ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /cmndParamsMandatoryAssert/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def cmndParamsMandatoryAssert(
+####+END:
+        parRoot,
+        icmParams,
+) -> None:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ] Convert icmParams to parser
+    #+end_org """
 
-def cmndParamsMandatoryAssert(paramsList):
-        for key, value in paramsList.items():
-            if value == None: return(EH_critical_usageError(key))
-
+    for key, value in paramsList.items():
+        if value == None: return(EH_critical_usageError(key))
 
 
 

@@ -124,42 +124,26 @@ import logging
 # import pykeepass
 #
 
-####+BEGIN: bx:icm:py3:func :funcName "read" :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
+####+BEGIN: blee:bxPanel:foldingSection :outLevel 0 :sep nil :title "Commands Args" :anchor "" :extraInfo ""
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /read/  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*     [[elisp:(outline-show-subtree+toggle)][| _Commands Args_: |]]    [[elisp:(org-shifttab)][<)]] E|
 #+end_org """
-def read(
+####+END
+
+
+####+BEGIN: bx:cs:py3:func :funcName "cmndArgPositionToMinAndMax" :funcType "extTyped" :deco ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /cmndArgPositionToMinAndMax/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def cmndArgPositionToMinAndMax(
 ####+END:
-) -> str:
+        argPosStr: str,
+):
     """ #+begin_org
-** [[elisp:(org-cycle)][| *DocStr | ] Reads stdin. Returns a string. -- Uses mutable list.
+** [[elisp:(org-cycle)][| *DocStr | ] Expecting argPosStr to be either an integer or two intgers delimited by an ampersand
+    returning two integers specifying the range
     #+end_org """
 
-    stdinAsStr = ""
-    #if select.select([sys.stdin, ], [], [], 0.0)[0]:
-    if not sys.stdin.isatty():
-
-        msgAsList = []
-        for line in sys.stdin:
-            msgAsList.append(str(line))
-
-        stdinAsStr = str("".join(msgAsList),)
-
-    return stdinAsStr
-
-
-####+BEGIN: bx:icm:python:func :funcName "cmndArgPositionToMinAndMax" :funcType "anyOrNone" :retType "bool" :deco "" :argsList "argPosStr"
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(org-tree-to-indirect-buffer)][|>]] [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func-anyOrNone :: /cmndArgPositionToMinAndMax/ retType=bool argsList=(argPosStr)  [[elisp:(org-cycle)][| ]]
-"""
-def cmndArgPositionToMinAndMax(
-    argPosStr,
-):
-####+END:
-    """
-** Expecting argPosStr to be either an integer or two intgers delimited by an ampersand
-*** returning two integers specifying the range
-"""
     rangeList = argPosStr.split("&")
     rangeListLen = len(rangeList)
 
@@ -185,11 +169,17 @@ def cmndArgPositionToMinAndMax(
 *  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Class            ::  ArgReq -- Obsoleted   [[elisp:(org-cycle)][| ]]
 """
 #ArgReq = enum('Mandatory', 'Optional')   # Argument Requirements -- Mandatory Keyword Arguments
-class ArgReq():
-    """ Argument Requirements: For Specification Of Required Keyword Arguments.
-
+####+BEGIN: bx:dblock:python:class :className "ArgReq" :superClass "" :comment "" :classType "basic"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Cls-basic  [[elisp:(outline-show-subtree+toggle)][||]] /ArgReq/ object  [[elisp:(org-cycle)][| ]]
+#+end_org """
+class ArgReq(object):
+####+END:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| DocStr| ]]  Argument Requirements: For Specification Of Required Keyword Arguments.
     Example: ArgReq.Conditional -- to be used at declaration time.
-    """
+    #+end_org """
+
     Mandatory = "___Mandatory___"
     Optional = "___Optional___"
     Conditional = "___Conditional___"
@@ -212,126 +202,107 @@ class ArgReq():
             raise ValueError("Missing Mandatory Argument: " + ucf.stackFrameInfoGet(2))
         return arg
 
-
-
-####+BEGIN: bx:icm:python:section :title "ICM_Param: ICM Parameter (ICM_Param, ICM_ParamDict)"
-"""
-*  [[elisp:(beginning-of-buffer)][Top]] ################ [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *ICM_Param: ICM Parameter (ICM_Param, ICM_ParamDict)*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
-"""
-####+END:
-
-####+BEGIN: bx:dblock:python:enum :enumName "ICM_ParamScope" :comment ""
+####+BEGIN: blee:bxPanel:foldingSection :outLevel 0 :sep nil :title "CmndArgs: Per Command Argument" :anchor "" :extraInfo ""
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Enum       [[elisp:(outline-show-subtree+toggle)][||]] /ICM_ParamScope/  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*     [[elisp:(outline-show-subtree+toggle)][| _CmndArgs: Per Command Argument_: |]]    [[elisp:(org-shifttab)][<)]] E|
 #+end_org """
-@enum.unique
-class ICM_ParamScope(enum.Enum):
-####+END:
-    TargetParam = 'TargetParam'
-    IcmGeneralParam = 'IcmGeneralParam'
-    CmndSpecificParam = 'CmndSpecificParam'
+####+END
 
-####+BEGIN: bx:icm:python:section :title "CmndArgs: Per Command Argument"
-"""
-*  [[elisp:(beginning-of-buffer)][Top]] ################ [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *CmndArgs: Per Command Argument*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
-"""
-####+END:
 
 ####+BEGIN: bx:dblock:python:class :className "CmndArgSpec" :superClass "" :comment "" :classType "basic"
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(org-tree-to-indirect-buffer)][|>]] [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Class-basic    :: /CmndArgSpec/ object  [[elisp:(org-cycle)][| ]]
-"""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Cls-basic  [[elisp:(outline-show-subtree+toggle)][||]] /CmndArgSpec/ object  [[elisp:(org-cycle)][| ]]
+#+end_org """
 class CmndArgSpec(object):
-####+END:
-     """\
-** Representation of an Interactively Command Module (ICM) Command Argument Sepecification(CmndArgSpec).
-     """
+    ####+END:
+    """ #+begin_org
+    ** [[elisp:(org-cycle)][| DocStr| ]]  Representation of an Interactively Command Module (ICM) Command Argument Sepecification(CmndArgSpec).
+    #+end_org """
 
-     def __init__(
-             self,
-             argName=None,
-             argDefault=None,
-             argChoices=[],
-             argDataType=None,
-             argDescription=None,
-     ):
-         '''Constructor'''
-         self.__argName = argName
-         self.__argDefault = argDefault
-         self.__argValue = None
-         self.__argDescription = argDescription
-         self.__argDataType = argDataType
-         self.__argChoices = argChoices
+    def __init__(
+            self,
+            argName=None,
+            argDefault=None,
+            argChoices=[],
+            argDataType=None,
+            argDescription=None,
+    ):
+        '''Constructor'''
+        self.__argName = argName
+        self.__argDefault = argDefault
+        self.__argValue = None
+        self.__argDescription = argDescription
+        self.__argDataType = argDataType
+        self.__argChoices = argChoices
 
-     def __str__(self):
+    def __str__(self):
          return  format(
              'value: ' + str(self.argValueGet())
-             )
+         )
 
-     def argNameGet(self):
+    def argNameGet(self):
          """  """
          return self.__argName
 
-     def argNameSet(self, argName):
+    def argNameSet(self, argName):
          """        """
          self.__argName = argName
 
-     def argValueGet(self):
+    def argValueGet(self):
          """        """
          return self.__argValue
 
-     def argValueSet(self, value):
+    def argValueSet(self, value):
          """        """
          self.__argValue = value
 
-     def argDescriptionGet(self):
+    def argDescriptionGet(self):
          """        """
          return self.__argDescription
 
-     def argDescriptionSet(self, argDescription):
+    def argDescriptionSet(self, argDescription):
          """        """
          self.__argDescription = argDescription
 
-     def argDataTypeGet(self):
+    def argDataTypeGet(self):
          """        """
          return self.__argDataType
 
-     def argDataTypeSet(self, argDataType):
+    def argDataTypeSet(self, argDataType):
          """        """
          self.__argDataType = argDataType
 
-     def argDefaultGet(self):
+    def argDefaultGet(self):
          """        """
          return self.__argDefault
 
-     def argDefaultSet(self, argDefault):
+    def argDefaultSet(self, argDefault):
          """        """
          self.__argDefault = argDefault
 
-     def argChoicesGet(self):
+    def argChoicesGet(self):
          """        """
          return self.__argChoices
 
-     def argChoicesSet(self, argChoices):
+    def argChoicesSet(self, argChoices):
          """        """
          self.__argChoices = argChoices
 
-
 ####+BEGIN: bx:dblock:python:class :className "CmndArgsSpecDict" :superClass "" :comment "" :classType "basic"
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(org-tree-to-indirect-buffer)][|>]] [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Class-basic    :: /CmndArgsSpecDict/ object  [[elisp:(org-cycle)][| ]]
-"""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Cls-basic  [[elisp:(outline-show-subtree+toggle)][||]] /CmndArgsSpecDict/ object  [[elisp:(org-cycle)][| ]]
+#+end_org """
 class CmndArgsSpecDict(object):
 ####+END:
-     """ICM Argameters Dictionary -- Collection of ICM_Argam s can be placed in ICM_ArgamDict
+    """ #+begin_org
+** [[elisp:(org-cycle)][| DocStr| ]]  ICM Argameters Dictionary -- Collection of ICM_Argam s can be placed in ICM_ArgamDict
+    From icmArgamDict
+    #+end_org """
 
-     From icmArgamDict
-     """
-
-     def __init__(self):
+    def __init__(self):
          self.__cmndArgsSpecDict = dict()
 
-     def argsDictAdd(
+    def argsDictAdd(
              self,
              argPosition=None,
              argName=None,
@@ -339,7 +310,7 @@ class CmndArgsSpecDict(object):
              argDescription=None,
              argDataType=None,
              argChoices=None,
-     ):
+    ):
          """        """
          thisArgSpec = CmndArgSpec(
              argName=argName,
@@ -351,22 +322,62 @@ class CmndArgsSpecDict(object):
 
          self.argDictAppend(argPosition, thisArgSpec)
 
-     def argDictAppend(
+    def argDictAppend(
              self,
              argPosition,
              cmndArgSpec,
-     ):
+    ):
          """        """
          self.__cmndArgsSpecDict.update({argPosition:cmndArgSpec})
 
-     def argDictGet(self):
+    def argDictGet(self):
          """        """
          return self.__cmndArgsSpecDict
 
-     def argPositionFind(self, argPosition=None):
+    def argPositionFind(self, argPosition=None):
          """        """
          return self.__cmndArgsSpecDict[argPosition]
 
+
+"""
+*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  cmndArgsLengthIsNotValid    [[elisp:(org-cycle)][| ]]
+"""
+@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+def cmndArgsLengthIsNotValid(cmndArgs=ArgReq.Mandatory,
+                        expected=ArgReq.Mandatory,
+                        comparison=ArgReq.Mandatory,
+                       ):
+    cmndArgsLen=len(cmndArgs)
+    if comparison(cmndArgsLen, expected):
+        EH_critical_usageError("Bad Number Of cmndArgs: cmndArgs={cmndArgs}"
+                                 .format(cmndArgs=cmndArgs))
+        return(True)
+    return(False)
+
+
+"""
+*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  cmndArgsLengthValidate    [[elisp:(org-cycle)][| ]]
+"""
+@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+def cmndArgsLengthValidate(cmndArgs=ArgReq.Mandatory,
+                        expected=ArgReq.Mandatory,
+                        comparison=ArgReq.Mandatory,
+                       ):
+    cmndArgsLen=len(cmndArgs)
+    if comparison(cmndArgsLen, expected):
+        EH_critical_usageError(f"Bad Number Of cmndArgs: cmndArgs={cmndArgs} cmndArgsLen={cmndArgsLen} expected={expected}")
+        return(1)
+    return(0)
+
+"""
+*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  int__gt    [[elisp:(org-cycle)][| ]]
+"""
+
+def int__gt(nuOfArgs,  expected):
+    if nuOfArgs > expected:
+        return True
+    else:
+        return False
 
 
 ####+BEGIN: bx:icm:python:section :title "End Of Editable Text"

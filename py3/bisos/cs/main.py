@@ -214,7 +214,7 @@ def classedCmndsDict(importedCmndsModules):
     #print(importedTagsList)
 
     callDict = dict()
-    for eachCmnd in cs.cmndList_mainsMethods().cmnd(
+    for eachCmnd in inCmnd.cmndList_mainsMethods().cmnd(
             interactive=False,
             importedCmnds={}, # __main__.g_importedCmnds -- Being obsoleted
             mainFileName=__main__.__file__,
