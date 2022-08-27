@@ -106,6 +106,8 @@ import enum
 from bisos import io
 from bisos import bpf
 
+from bisos import cs
+
 from bisos.cs import param
 from bisos.cs import arg
 from bisos.cs import runArgs
@@ -1061,7 +1063,7 @@ def G_mainWithClass(
 
     logger.info('Main Started: ' + bpf.ast.stackFrameInfoGet(1) )
 
-    G = IcmGlobalContext()
+    G = cs.globalContext.get()
     G.globalContextSet( icmRunArgs=icmRunArgs )
     G.icmArgsParser = icmArgsParser
     G.cmndMethodsDictSet(classedCmndsDict)
@@ -1468,6 +1470,60 @@ def cmndToFileParamsUpdate(
 
     return
 
+####+BEGIN: bx:cs:py3:func :funcName "cmndCallParamsValidate" :funcType "extTyped" :deco "track"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /cmndCallParamsValidate/ deco=track  [[elisp:(org-cycle)][| ]]
+#+end_org """
+@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+def cmndCallParamsValidate(
+####+END:
+        callParamDict,
+        interactive,
+        outcome=None,
+
+):
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ] Expected to be used in all CMNDs.
+
+
+MB-2022 --- This is setting the variable not validating it.
+    Perhaps the function should have been cmndCallParamsSet.
+
+Usage Pattern:
+
+    if not icm.cmndCallParamValidate(FPsDir, interactive, outcome=cmndOutcome):
+       return cmndOutcome
+
+    #+end_org """
+
+    #G = IcmGlobalContext()
+    #if type(callParamOrList) is not list: callParamOrList = [ callParamOrList ]
+
+    if not outcome:
+        outcome = OpOutcome()
+
+    for key  in callParamDict:
+        # print(f"111 {key}")
+        # interactive could be true in two situations:
+        # 1) When a cs is executed on cmnd-line.
+        # 2) When a cs is invoked with interactive as true.
+        # When (2) callParamDict[key] is expcted to be true by having been specified at invokation.
+        #
+        if not callParamDict[key]:
+            # MB-2022 The logic here seems wrong. When non-interactive, only mandattories
+            # should be verified.
+            # if not interactive:
+            #     return eh_problem_usageError(
+            #         outcome,
+            #         "Missing Non-Interactive Arg {}".format(key),
+            #     )
+            if interactive:
+                exec("callParamDict[key] = IcmGlobalContext().usageParams." + key)
+            # print(f"222 {callParamDict[key]}")
+
+
+    return True
+
 
 ####+BEGIN: bx:icm:python:icmItem :itemType "Global" :itemTitle "mainsClassedCmndsGlobal = None"
 """ #+begin_org
@@ -1476,6 +1532,7 @@ def cmndToFileParamsUpdate(
 ####+END:
 
 mainsClassedCmndsGlobal = None
+
 
 
 

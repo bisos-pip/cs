@@ -1,7 +1,7 @@
 
 from .cs import *
 
-from .main import (g_icmMain)
+from .main import (g_csMain)
 
 from .examples import (commonExamples, commonBrief, devExamples,
                        icmOptionsExamples, myName, ex_gCommon,

@@ -128,60 +128,34 @@ import logging
 # import pykeepass
 #
 
-
-####+BEGIN: bx:icm:py3:func :funcName "read" :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
+####+BEGIN: bx:cs:py3:func :funcName "G_main" :funcType "extTyped" :deco "track"
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /read/  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /G_main/ deco=track  [[elisp:(org-cycle)][| ]]
 #+end_org """
-def read(
+@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+def G_main(
 ####+END:
-) -> str:
+):
     """ #+begin_org
-** [[elisp:(org-cycle)][| *DocStr | ] Reads stdin. Returns a string. -- Uses mutable list.
+** [[elisp:(org-cycle)][| *DocStr | ] Replaces ICM dispatcher for other command line args parsings.
     #+end_org """
-
-    stdinAsStr = ""
-    #if select.select([sys.stdin, ], [], [], 0.0)[0]:
-    if not sys.stdin.isatty():
-
-        msgAsList = []
-        for line in sys.stdin:
-            msgAsList.append(str(line))
-
-        stdinAsStr = str("".join(msgAsList),)
-
-    return stdinAsStr
-
-
-####+BEGIN: bx:icm:python:func :funcName "G_main" :funcType "FrameWrk" :retType "Void" :deco "" :argsList ""
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(org-tree-to-indirect-buffer)][|>]] [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func-FrameWrk  :: /G_main/ retType=Void argsList=nil  [[elisp:(org-cycle)][| ]]
-"""
-def G_main():
-####+END:
-    """
-** Replaces ICM dispatcher for other command line args parsings.
-"""
     pass
 
-####+BEGIN: bx:icm:python:icmItem :itemType "Configuration" :itemTitle "= =Framework::= g_ Settings -- ICMs Imports ="
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(org-tree-to-indirect-buffer)][|>]] [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Configuration  :: = =Framework::= g_ Settings -- ICMs Imports =  [[elisp:(org-cycle)][| ]]
-"""
+####+BEGIN: bx:cs:py3:func :funcName "classedCmndsDict" :funcType "extTyped" :deco "track"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /classedCmndsDict/ deco=track  [[elisp:(org-cycle)][| ]]
+#+end_org """
+@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+def classedCmndsDict(
 ####+END:
+        importedCmndsModules,
+) -> dict:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ] Should be done here, can not be done in icm library because of the evals.
+    =importedCmndsModules= is a list of modules.
+    Returns a dictionary of ???
+    #+end_org """
 
-# g_examples = __main__.examples  # or None
-# g_mainEntry = None  # or G_main
-
-####+BEGIN: bx:dblock:global:file-insert :file "/libre/ByStar/InitialTemplates/update/sw/icm/py/icm2.G_main.py"
-"""
-*  [[elisp:(beginning-of-buffer)][Top]] # /Dblk-Begin/ # [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *= =Framework::= ICM main() =*
-"""
-
-def classedCmndsDict(importedCmndsModules):
-    """
-** Should be done here, can not be done in icm library because of the evals.
-"""
     import importlib
     importedCmndsFilesList=[]
     importedTagsList=[]
@@ -269,8 +243,18 @@ def classedCmndsDict(importedCmndsModules):
 #     icmInfo['credits'] = __main__.__credits__
 
 #     G.icmInfoSet(icmInfo)
+#
 
-def g_icmMain(
+# g_examples = __main__.examples  # or None
+# g_mainEntry = None  # or G_main
+#
+
+####+BEGIN: bx:cs:py3:func :funcName "g_csMain" :funcType "extTyped" :deco ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /g_csMain/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def g_csMain(
+####+END:
         noCmndEntry=None,   # To Be Obsoleted
         extraParamsHook=None,
         importedCmndsModules=[],
@@ -278,9 +262,12 @@ def g_icmMain(
         icmPostCmndsHook=None,
         icmInfo=None,
 ):
-    """This ICM's specific information is passed to G_mainWithClass"""
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ] This ICM's specific information is passed to G_mainWithClass
+    #+end_org """
 
-    cs.G.icmInfoSet(icmInfo)
+    G = cs.globalContext.get()
+    G.icmInfoSet(icmInfo)
 
     examples = None
     mainEntry = None
@@ -307,15 +294,21 @@ def g_icmMain(
     )
 
 
-
-
+####+BEGIN: bx:cs:py3:func :funcName "cmndCallParamsValidate" :funcType "extTyped" :deco "track"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /cmndCallParamsValidate/ deco=track  [[elisp:(org-cycle)][| ]]
+#+end_org """
+@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
 def cmndCallParamsValidate(
+####+END:
         callParamDict,
         interactive,
         outcome=None,
 
 ):
-    """Expected to be used in all CMNDs.
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ] Expected to be used in all CMNDs.
+
 
 MB-2022 --- This is setting the variable not validating it.
     Perhaps the function should have been cmndCallParamsSet.
@@ -324,7 +317,9 @@ Usage Pattern:
 
     if not icm.cmndCallParamValidate(FPsDir, interactive, outcome=cmndOutcome):
        return cmndOutcome
-"""
+
+    #+end_org """
+
     #G = IcmGlobalContext()
     #if type(callParamOrList) is not list: callParamOrList = [ callParamOrList ]
 
@@ -354,8 +349,7 @@ Usage Pattern:
     return True
 
 
-
-from bisos.cs import inCmnd
+#from bisos.cs import inCmnd
 
 
 ####+BEGIN: bx:icm:python:section :title "End Of Editable Text"
