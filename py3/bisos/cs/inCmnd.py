@@ -168,7 +168,7 @@ class icmLanguage(cs.Cmnd):
             print("python")
 
         return cmndOutcome.set(
-            opError=OpError.Success,
+            opError=bpf.op.OpError.Success,
             opResults="python"
         )
 
@@ -271,11 +271,11 @@ class icmInUpdate(cs.Cmnd):
 
         return(cmndOutcome)
 
-####+BEGIN: bx:cs:py3:cmnd:classHead :cmndName "icmInfo" :comment "" :parsMand "" :parsOpt "" :argsMin "1" :argsMax "1" :asFunc "" :interactiveP ""
+####+BEGIN: bx:cs:py3:cmnd:classHead :cmndName "csInfoCmnd" :comment "" :parsMand "" :parsOpt "" :argsMin "1" :argsMax "1" :asFunc "" :interactiveP ""
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc    [[elisp:(outline-show-subtree+toggle)][||]] <<icmInfo>> parsMand= parsOpt= argsMin=1 argsMax=1 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc    [[elisp:(outline-show-subtree+toggle)][||]] <<csInfoCmnd>> parsMand= parsOpt= argsMin=1 argsMax=1 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
 #+end_org """
-class icmInfo(cs.Cmnd):
+class csInfoCmnd(cs.Cmnd):
     cmndParamsMandatory = [ ]
     cmndParamsOptional = [ ]
     cmndArgsLen = {'Min': 1, 'Max': 1,}
@@ -476,8 +476,6 @@ class cmndInfo(cs.Cmnd):
 
         cmndName=None,  # cmndArgs[0]
         orgLevel=2,
-
-
 
 
         myName=self.myName()
@@ -815,7 +813,7 @@ class cmndList_libsMethods(cs.Cmnd):
 
         global mainsClassedCmndsGlobal
 
-        allClassedCmndNames = cmndSubclassesNames()
+        allClassedCmndNames = cs.cmndSubclassesNames()
 
         #mainClasses = ucf.ast_topLevelClassNamesInFile(
         #    sys.argv[0]

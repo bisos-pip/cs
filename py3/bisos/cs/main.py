@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """ #+begin_org
-* *[Summary]* :: A =CS-Lib= for creating and managing BPO's gpg and encryption/decryption.
+* *[Summary]* :: A =PyLib= for dispatching CS Main.
 #+end_org """
 
 ####+BEGIN: b:prog:file/proclamations :outLevel 1
@@ -26,10 +26,10 @@
 * *[[elisp:(org-cycle)][| Particulars-csInfo |]]*
 #+end_org """
 import typing
-icmInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['bpoGpg'], }
-icmInfo['version'] = '202208073306'
+icmInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['main'], }
+icmInfo['version'] = '202208263554'
 icmInfo['status']  = 'inUse'
-icmInfo['panel'] = 'bpoGpg-Panel.org'
+icmInfo['panel'] = 'main-Panel.org'
 icmInfo['groupingType'] = 'IcmGroupingType-pkged'
 icmInfo['cmndParts'] = 'IcmCmndParts[common] IcmCmndParts[param]'
 ####+END:
@@ -74,7 +74,7 @@ Module description comes here.
 # G.icmLibsAppend = __file__
 # G.icmCmndsLibsAppend = __file__
 
-from blee.icmPlayer import bleep
+#from blee.icmPlayer import bleep
 ####+END:
 
 import __main__
@@ -82,14 +82,14 @@ import __main__
 import types
 
 
-import os
+#import os
 import sys
 #import select
 
 # import pwd
 # import grp
 # import collections
-import enum
+# import enum
 #
 
 #import traceback
@@ -104,13 +104,13 @@ import enum
 # from bisos.basics import pattern
 
 from bisos import io
-from bisos import bpf
+#from bisos import bpf
 
 from bisos import cs
-from bisos.cs import inCmnd
-from bisos.cs import examples
 
-import argparse
+#from bisos.cs import examples
+
+#import argparse
 
 # from bisos.bpo import bpo
 #from bisos.pals import palsSis
@@ -120,7 +120,7 @@ import argparse
 
 # import gnupg
 
-import logging
+#import logging
 
 #import shutil
 
@@ -155,6 +155,8 @@ def classedCmndsDict(
     =importedCmndsModules= is a list of modules.
     Returns a dictionary of ???
     #+end_org """
+
+    from bisos.cs import inCmnd
 
     import importlib
     importedCmndsFilesList=[]
@@ -258,16 +260,16 @@ def g_csMain(
         noCmndEntry=None,   # To Be Obsoleted
         extraParamsHook=None,
         importedCmndsModules=[],
-        icmPreCmndsHook=None,
-        icmPostCmndsHook=None,
-        icmInfo=None,
+        csPreCmndsHook=None,
+        csPostCmndsHook=None,
+        csInfo=None,
 ):
     """ #+begin_org
 ** [[elisp:(org-cycle)][| *DocStr | ] This ICM's specific information is passed to G_mainWithClass
     #+end_org """
 
     G = cs.globalContext.get()
-    G.icmInfoSet(icmInfo)
+    G.icmInfoSet(csInfo)
 
     examples = None
     mainEntry = None
@@ -288,65 +290,11 @@ def g_csMain(
             G_examples=examples,               # Mandatory
             classedCmndsDict=classedCmndsDict(importedCmndsModules),   # Mandatory
             mainEntry=mainEntry,
-            g_icmPreCmnds=icmPreCmndsHook,
-            g_icmPostCmnds=icmPostCmndsHook,
+            g_icmPreCmnds=csPreCmndsHook,
+            g_icmPostCmnds=csPostCmndsHook,
         )
     )
 
-
-####+BEGIN: bx:cs:py3:func :funcName "cmndCallParamsValidate" :funcType "extTyped" :deco "track"
-""" #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /cmndCallParamsValidate/ deco=track  [[elisp:(org-cycle)][| ]]
-#+end_org """
-@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-def cmndCallParamsValidate(
-####+END:
-        callParamDict,
-        interactive,
-        outcome=None,
-
-):
-    """ #+begin_org
-** [[elisp:(org-cycle)][| *DocStr | ] Expected to be used in all CMNDs.
-
-
-MB-2022 --- This is setting the variable not validating it.
-    Perhaps the function should have been cmndCallParamsSet.
-
-Usage Pattern:
-
-    if not icm.cmndCallParamValidate(FPsDir, interactive, outcome=cmndOutcome):
-       return cmndOutcome
-
-    #+end_org """
-
-    #G = IcmGlobalContext()
-    #if type(callParamOrList) is not list: callParamOrList = [ callParamOrList ]
-
-    if not outcome:
-        outcome = OpOutcome()
-
-    for key  in callParamDict:
-        # print(f"111 {key}")
-        # interactive could be true in two situations:
-        # 1) When a cs is executed on cmnd-line.
-        # 2) When a cs is invoked with interactive as true.
-        # When (2) callParamDict[key] is expcted to be true by having been specified at invokation.
-        #
-        if not callParamDict[key]:
-            # MB-2022 The logic here seems wrong. When non-interactive, only mandattories
-            # should be verified.
-            # if not interactive:
-            #     return eh_problem_usageError(
-            #         outcome,
-            #         "Missing Non-Interactive Arg {}".format(key),
-            #     )
-            if interactive:
-                exec("callParamDict[key] = IcmGlobalContext().usageParams." + key)
-            # print(f"222 {callParamDict[key]}")
-
-
-    return True
 
 
 #from bisos.cs import inCmnd

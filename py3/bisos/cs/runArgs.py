@@ -104,6 +104,7 @@ import enum
 
 # from bisos.basics import pattern
 
+from bisos import cs
 from bisos import io
 from bisos import bpf
 
@@ -116,7 +117,7 @@ import argparse
 # from bisos import bpf
 
 #from bisos.cs.globalContext import globalContext
-from bisos import cs
+
 
 # import gnupg
 

@@ -1,2 +1,0 @@
-
-from .globalContext import (get)

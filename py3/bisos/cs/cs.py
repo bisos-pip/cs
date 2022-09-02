@@ -26,10 +26,10 @@
 * *[[elisp:(org-cycle)][| Particulars-csInfo |]]*
 #+end_org """
 import typing
-icmInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['bpoGpg'], }
-icmInfo['version'] = '202208073306'
+icmInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['cs'], }
+icmInfo['version'] = '202208264142'
 icmInfo['status']  = 'inUse'
-icmInfo['panel'] = 'bpoGpg-Panel.org'
+icmInfo['panel'] = 'cs-Panel.org'
 icmInfo['groupingType'] = 'IcmGroupingType-pkged'
 icmInfo['cmndParts'] = 'IcmCmndParts[common] IcmCmndParts[param]'
 ####+END:
@@ -74,12 +74,12 @@ Module description comes here.
 # G.icmLibsAppend = __file__
 # G.icmCmndsLibsAppend = __file__
 
-from blee.icmPlayer import bleep
+#from blee.icmPlayer import bleep
 ####+END:
 
 import __main__
 
-import types
+#import types
 
 
 import os
@@ -103,13 +103,14 @@ import enum
 
 # from bisos.basics import pattern
 
-from bisos import io
-from bisos import bpf
 
 from bisos import cs
 
-from bisos.cs import param
-from bisos.cs import arg
+from bisos import io
+from bisos import bpf
+
+#from bisos.cs import param
+#from bisos.cs import arg
 from bisos.cs import runArgs
 
 from datetime import datetime
@@ -125,7 +126,7 @@ import argparse
 
 # import gnupg
 
-import logging
+#import logging
 
 import abc
 
@@ -140,6 +141,8 @@ import abc
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*     [[elisp:(outline-show-subtree+toggle)][| _Cmnd Abstract Class_: |]]  An Expectation Complete Operation  [[elisp:(org-shifttab)][<)]] E|
 #+end_org """
 ####+END:
+
+G = cs.globalContext.get()
 
 
 ####+BEGIN: bx:dblock:python:class :className "Cmnd" :classType "abs"
@@ -232,17 +235,17 @@ class Cmnd(object):
 
         errorStr = self.cmndArgsLenValidate()
         if errorStr:
-            outcome.error = OpError.CmndLineUsageError
+            outcome.error = bpf.op.OpError.CmndLineUsageError
             outcome.errInfo = errorStr
             return False
         errorStr = self.cmndParamsMandatoryValidate()
         if errorStr:
-            outcome.error = OpError.CmndLineUsageError
+            outcome.error = bpf.op.OpError.CmndLineUsageError
             outcome.errInfo = errorStr
             return False
         errorStr = self.cmndParamsOptionalValidate()
         if errorStr:
-            outcome.error = OpError.CmndLineUsageError
+            outcome.error = bpf.op.OpError.CmndLineUsageError
             outcome.errInfo = errorStr
             return False
         return True
@@ -253,7 +256,8 @@ class Cmnd(object):
 
     expectedCmndArgsLen is a dcitionary with 'Min' and 'Max' range.
     """
-        cmndArgsLen = len(IcmGlobalContext().icmRunArgsGet().cmndArgs)
+        G = cs.globalContext.get()
+        cmndArgsLen = len(G.icmRunArgsGet().cmndArgs)
         expectedCmndArgsLen = self.__class__.cmndArgsLen
 
         def errStr():
@@ -285,7 +289,8 @@ class Cmnd(object):
 
     expectedCmndArgsLen is a dcitionary with 'Min' and 'Max' range.
     """
-        G = IcmGlobalContext()
+
+        G = cs.globalContext.get()
         icmRunArgs = G.icmRunArgsGet()
         icmRunArgsDict = vars(icmRunArgs)
 
@@ -316,7 +321,7 @@ class Cmnd(object):
 
     expectedCmndArgsLen is a dcitionary with 'Min' and 'Max' range.
     """
-        G = IcmGlobalContext()
+        G = cs.globalContext.get()
         icmRunArgs = G.icmRunArgsGet()
         icmRunArgsDict = vars(icmRunArgs)
 
@@ -368,7 +373,7 @@ class Cmnd(object):
             else:
                 return ""
 
-        min, max = cmndArgPositionToMinAndMax(argPosition)
+        min, max = cs.arg.cmndArgPositionToMinAndMax(argPosition)
 
         if min == None:
             return None
@@ -442,7 +447,7 @@ class Cmnd(object):
             if argChoices == "any":
                 continue
 
-            min, max = cmndArgPositionToMinAndMax(argPosition)
+            min, max = cs.arg.cmndArgPositionToMinAndMax(argPosition)
 
             if min == None:
                 # EH_problem()
@@ -486,12 +491,12 @@ class Cmnd(object):
         """
 ** All value full icmpParams are then written off as file params.
         """
-        G = IcmGlobalContext()
+        G = cs.globalContext.get()
         icmRunArgs = G.icmRunArgsGet()
 
         applicableCmndKwArgs = dict()
 
-        g_parDict = IcmGlobalContext().icmParamDictGet().parDictGet()
+        g_parDict = G.icmParamDictGet().parDictGet()
 
         for each in self.cmndParamsMandatory:
             try:
@@ -533,7 +538,7 @@ class Cmnd(object):
 ** Their values are then set in icmParam.
 ** All value full icmpParams are then written off as file params.
         """
-        G = IcmGlobalContext()
+        G = cs.globalContext.get()
         icmRunArgs = G.icmRunArgsGet()
 
         # print(f"cmndParamsMandatory={self.cmndParamsMandatory}")
@@ -716,6 +721,51 @@ class AuxInvokationContext(enum.Enum):
     CmndParamsAndArgs = 'CmndParamsAndArgs'
     DocString = 'DocString'
 
+####+BEGIN: blee:bxPanel:foldingSection :outLevel 0 :sep nil :title "csuList" :anchor "" :extraInfo "Setup framework functions"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*     [[elisp:(outline-show-subtree+toggle)][| _csuList_: |]]  Setup framework functions  [[elisp:(org-shifttab)][<)]] E|
+#+end_org """
+####+END
+
+####+BEGIN: bx:cs:py3:func :funcName "csuList_importedModules" :funcType "extTyped" :deco "track"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /csuList_importedModules/ deco=track  [[elisp:(org-cycle)][| ]]
+#+end_org """
+@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+def csuList_importedModules(
+####+END:
+         csuList: list,
+) -> list:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ] Later we may do more.
+    #+end_org """
+
+    return csuList
+
+####+BEGIN: bx:cs:py3:func :funcName "csuList_commonParamsSpecify" :funcType "extTyped" :deco "track"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /csuList_commonParamsSpecify/ deco=track  [[elisp:(org-cycle)][| ]]
+#+end_org """
+@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+def csuList_commonParamsSpecify(
+####+END:
+        csuList: list,
+        csParams: list,
+) -> None:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ] Walkthrough =csuList=, call module.commonParamsSpecify(=csParams=).
+    #+end_org """
+
+    for each in csuList:
+        lastPart = each.split(".")[-1]
+        #print(lastPart)
+        module = sys.modules[each]
+        if hasattr(module, "commonParamsSpecify"):
+            parsSpecFunc = getattr(module, "commonParamsSpecify")
+            parsSpecFunc(csParams)
+
+    return
+
 
 ####+BEGIN: blee:bxPanel:foldingSection :outLevel 0 :sep nil :title "Command Line Parsing With argparse" :anchor "" :extraInfo "just arg parse or more?"
 """ #+begin_org
@@ -738,7 +788,8 @@ def commonIcmParamsParser(
 
     icmParams = commonIcmParamsPrep()
 
-    argsparseBasedOnIcmParams(parser, icmParams)
+    #argsparseBasedOnCsParams(parser, icmParams)
+    argsparseBasedOnCsParams(icmParams)
 
     return
 
@@ -884,11 +935,14 @@ def G_argsProc(
          description=__doc__
          )
 
+     G.icmArgsParser = parser
+
      argsCommonProc(parser)
      #commonIcmParamsPrep()
 
      if extraArgs:
-        extraArgs(parser)
+        #extraArgs(parser)
+        extraArgs()
 
      #
      # The logic below breaks multiple --invokes.
@@ -912,19 +966,21 @@ def G_argsProc(
 
      return args, parser
 
-####+BEGIN: bx:cs:py3:func :funcName "argsparseBasedOnIcmParams" :funcType "extTyped" :deco "track"
+####+BEGIN: bx:cs:py3:func :funcName "argsparseBasedOnCsParams" :funcType "extTyped" :deco "track"
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /argsparseBasedOnIcmParams/ deco=track  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /argsparseBasedOnCsParams/ deco=track  [[elisp:(org-cycle)][| ]]
 #+end_org """
 @io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-def argsparseBasedOnIcmParams(
+def argsparseBasedOnCsParams(
 ####+END:
-        parser,
+        #parser,
         icmParams,
 ) -> None:
      """ #+begin_org
 ** [[elisp:(org-cycle)][| *DocStr | ] Convert icmParams to parser.
      #+end_org """
+
+     parser = G.icmArgsParser
 
      for key, icmParam in icmParams.parDictGet().items():
          if ( icmParam.argsparseShortOptGet() == None )  and ( icmParam.argsparseLongOptGet() == None ):
@@ -951,6 +1007,9 @@ def argsparseBasedOnIcmParams(
                 help=icmParam.parDescriptionGet()
                 )
 
+     # So that it can be processed later as well.
+     G.icmParamDictSet(icmParams)
+
      return
 
 ####+BEGIN: bx:cs:py3:func :funcName "libUserInit" :funcType "extTyped" :deco "track"
@@ -971,7 +1030,7 @@ def libUserInit(
     argsCommonProc(parser)
 
     args = parser.parse_args(icmLineOpts)
-    logControler = LOG_Control()
+    logControler = io.log.Control()
     logControler.loggerSet(args)
 
 
@@ -1006,14 +1065,14 @@ def G_main(
     #
     icmRunArgs, icmArgsParser = G_argsProc(inArgv, extraArgs)
 
-    logControler = LOG_Control()
+    logControler = Control()
     logControler.loggerSet(icmRunArgs)
 
     logger = logControler.loggerGet()
 
     logger.info('Main Started: ' + ucf.stackFrameInfoGet(1) )
 
-    G = IcmGlobalContext()
+    G = cs.globalContext.get()
     G.globalContextSet( icmRunArgs=icmRunArgs )
     G.icmArgsParser = icmArgsParser
 
@@ -1056,7 +1115,7 @@ def G_mainWithClass(
 
     icmRunArgs, icmArgsParser = G_argsProc(inArgv, extraArgs)
 
-    logControler = io.log.LOG_Control()
+    logControler = io.log.Control()
     logControler.loggerSet(icmRunArgs)
 
     logger = logControler.loggerGet()
@@ -1166,7 +1225,7 @@ def invokesProcAllClassed(
 ** [[elisp:(org-cycle)][| *DocStr | ] Process all invokations applicable to all (classed+funced of mains+libs) CMNDs.
     #+end_org """
 
-    G = IcmGlobalContext()
+    G = cs.globalContext.get()
     icmRunArgs = G.icmRunArgsGet()
 
     def applyMethodBasedOnContext(
@@ -1203,7 +1262,7 @@ def invokesProcAllClassed(
         try:
             classedCmnd = classedCmndsDict[invoke]
         except  KeyError:
-            #print "TM_"
+            #print("TM_ Key Error")
             pass
         else:
             #print(f"Found {classedCmnd}")
@@ -1214,7 +1273,7 @@ def invokesProcAllClassed(
         # Next we try cmndList_libsMethods()
         #
         callDict = dict()
-        for eachCmnd in cmndList_libsMethods().cmnd(interactive=False):
+        for eachCmnd in cs.inCmnd.cmndList_libsMethods().cmnd(interactive=False):
             #print(f"looking at {eachCmnd}")
             try:
                 callDict[eachCmnd] = eval("{eachCmnd}".format(eachCmnd=eachCmnd))
@@ -1276,7 +1335,7 @@ def cmndNameToClass(
 ** [[elisp:(org-cycle)][| *DocStr | ] Given cmndName, return cmndClass.
     #+end_org """
 
-    G = IcmGlobalContext()
+    G = cs.globalContext.get()
     classedCmndsDict = G.cmndMethodsDict()
 
     try:
@@ -1496,7 +1555,7 @@ Usage Pattern:
 
     #+end_org """
 
-    #G = IcmGlobalContext()
+    #G = cs.globalContext.get()
     #if type(callParamOrList) is not list: callParamOrList = [ callParamOrList ]
 
     if not outcome:
