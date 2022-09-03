@@ -750,7 +750,7 @@ def csuList_importedModules(
 def csuList_commonParamsSpecify(
 ####+END:
         csuList: list,
-        csParams: list,
+        csParams: cs.param.CmndParamDict,
 ) -> None:
     """ #+begin_org
 ** [[elisp:(org-cycle)][| *DocStr | ] Walkthrough =csuList=, call module.commonParamsSpecify(=csParams=).

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """ #+begin_org
-* *[Summary]* :: A =CS-Lib= for creating and managing BPO's gpg and encryption/decryption.
+* *[Summary]* :: A =PyLib= for abstracting Run-Time Invokers. Information about Invokers of Operations.
 #+end_org """
 
 ####+BEGIN: b:prog:file/proclamations :outLevel 1
@@ -35,12 +35,12 @@ icmInfo['cmndParts'] = 'IcmCmndParts[common] IcmCmndParts[param]'
 ####+END:
 
 """ #+begin_org
-* /[[elisp:(org-cycle)][| Description |]]/ :: [[file:/bisos/git/auth/bxRepos/blee-binders/bisos-core/PyFwrk/bisos.crypt/_nodeBase_/fullUsagePanel-en.org][PyFwrk bisos.crypt Panel]]
-Module description comes here.
-** Relevant Panels:
-** Status: In use with blee3
+* /[[elisp:(org-cycle)][| Description |]]/ :: [[file:/bisos/git/auth/bxRepos/blee-binders/bisos-core/PyFwrk/bisos.cs/_nodeBase_/fullUsagePanel-en.org][PyFwrk bisos.cs Panel]]
+Every ECO/Cmnd has a mandatory rtInvoker argument. Itprovides information about the invoker of the command.
+Based on this invoker information, the Cmnd and CS Framework can behave accordingly.
 ** /[[elisp:(org-cycle)][| Planned Improvements |]]/ :
-*** TODO complete fileName in particulars.
+*** TODO Needs testing and usage
+*** TODO Concepts of CliVerbose and verbose attribute need to be considered.
 #+end_org """
 
 ####+BEGIN: b:prog:file/orgTopControls :outLevel 1
@@ -81,19 +81,19 @@ import enum
 class Mode(enum.Enum):
 ####+END:
     Py = 'Py'
-    Cmnd = 'Cmnd'
+    Cli = 'Cli'
     RoInv = 'RoInv'
     RoPerf = 'RoPerf'
 
 
-#_RtInv = typing.TypeVar("_RtInv", bound=RtInv)   # 'RtInv' is a forward ref
-_RtInv = typing.TypeVar("_RtInv")
+#_RtInvoker = typing.TypeVar("_RtInvoker", bound=RtInvoker)   # 'RtInvoker' is a forward ref
+_RtInvoker = typing.TypeVar("_RtInvoker")
 
-####+BEGIN: bx:dblock:python:class :className "RtInv" :superClass "object" :comment "RunTime Invocation Info" :classType "basic"
+####+BEGIN: bx:dblock:python:class :className "RtInvoker" :superClass "object" :comment "RunTime Invocation Info" :classType "basic"
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Cls-basic  [[elisp:(outline-show-subtree+toggle)][||]] /RtInv/ object =RunTime Invocation Info=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Cls-basic  [[elisp:(outline-show-subtree+toggle)][||]] /RtInvoker/ object =RunTime Invocation Info=  [[elisp:(org-cycle)][| ]]
 #+end_org """
-class RtInv(object):
+class RtInvoker(object):
 ####+END:
     """
 ** RunTime Invocation Info.
@@ -108,10 +108,12 @@ class RtInv(object):
 ####+END:
             self,
             mode: Mode,
+            invoker = None,
             ins: bool=True,
             outs: bool=True,
     ):
         self._mode = mode
+        self._invoker = invoker
         self._ins = ins
         self._outs = outs
 
@@ -137,6 +139,17 @@ class RtInv(object):
     ) -> bool:
         return self._ins
 
+####+BEGIN: b:py3t:cs:method :methodName "invoker" :deco "property"
+    """
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     :: /invoker/ deco=property  [[elisp:(org-cycle)][| ]]
+#+end_org """
+    @property
+    def invoker(
+####+END:
+            self,
+    ) -> bool:
+        return self._invoker
+
 ####+BEGIN: b:py3t:cs:method :methodName "outs" :deco "property"
     """
 **  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     :: /outs/ deco=property  [[elisp:(org-cycle)][| ]]
@@ -155,8 +168,8 @@ class RtInv(object):
     @classmethod
     def new_py(
 ####+END:
-            cls: typing.Type[_RtInv],
-    ) -> typing.Type[_RtInv]:
+            cls: typing.Type[_RtInvoker],
+    ) -> typing.Type[_RtInvoker]:
         made = cls(Mode.Py, ins=False, outs=False)
         return made
 
@@ -167,9 +180,9 @@ class RtInv(object):
     @classmethod
     def new_cmnd(
 ####+END:
-            cls: typing.Type[_RtInv],
-    ) -> typing.Type[_RtInv]:
-        made = cls(Mode.Cmnd, ins=False, outs=True)
+            cls: typing.Type[_RtInvoker],
+    ) -> typing.Type[_RtInvoker]:
+        made = cls(Mode.Cli, ins=False, outs=True)
         return made
 
 ####+BEGIN: b:py3t:cs:method :methodName "new_roInv" :deco "classmethod"
@@ -179,8 +192,8 @@ class RtInv(object):
     @classmethod
     def new_roInv(
 ####+END:
-            cls: typing.Type[_RtInv],
-    ) -> typing.Type[_RtInv]:
+            cls: typing.Type[_RtInvoker],
+    ) -> typing.Type[_RtInvoker]:
         made = cls(Mode.RoInv, ins=False, outs=False)
         return made
 
@@ -191,8 +204,8 @@ class RtInv(object):
     @classmethod
     def new_roPerf(
 ####+END:
-            cls: typing.Type[_RtInv],
-    ) -> typing.Type[_RtInv]:
+            cls: typing.Type[_RtInvoker],
+    ) -> typing.Type[_RtInvoker]:
         made = cls(Mode.RoPerf, ins=False, outs=False)
         return made
 

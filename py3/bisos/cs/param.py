@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """ #+begin_org
-* *[Summary]* :: A =CS-Lib= for creating and managing BPO's gpg and encryption/decryption.
+* *[Summary]* :: A =Py+CsLib= for Abstracting CS Cmnd Parameters (Param).
 #+end_org """
 
 ####+BEGIN: b:prog:file/proclamations :outLevel 1
@@ -26,19 +26,17 @@
 * *[[elisp:(org-cycle)][| Particulars-csInfo |]]*
 #+end_org """
 import typing
-icmInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['bpoGpg'], }
-icmInfo['version'] = '202208073306'
-icmInfo['status']  = 'inUse'
-icmInfo['panel'] = 'bpoGpg-Panel.org'
-icmInfo['groupingType'] = 'IcmGroupingType-pkged'
-icmInfo['cmndParts'] = 'IcmCmndParts[common] IcmCmndParts[param]'
+csInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['param'], }
+csInfo['version'] = '202209031423'
+csInfo['status']  = 'inUse'
+csInfo['panel'] = 'param-Panel.org'
+csInfo['groupingType'] = 'IcmGroupingType-pkged'
+csInfo['cmndParts'] = 'IcmCmndParts[common] IcmCmndParts[param]'
 ####+END:
 
 """ #+begin_org
-* /[[elisp:(org-cycle)][| Description |]]/ :: [[file:/bisos/git/auth/bxRepos/blee-binders/bisos-core/PyFwrk/bisos.crypt/_nodeBase_/fullUsagePanel-en.org][PyFwrk bisos.crypt Panel]]
-Module description comes here.
-** Relevant Panels:
-** Status: In use with blee3
+* /[[elisp:(org-cycle)][| Description |]]/ :: [[file:/bisos/git/auth/bxRepos/blee-binders/bisos-core/PyFwrk/bisos-pip/bisos.cs/_nodeBase_/fullUsagePanel-en.org][PyFwrk bisos.cs Panel]]
+for Abstracting CS Cmnd Parameters (Param).
 ** /[[elisp:(org-cycle)][| Planned Improvements |]]/ :
 *** TODO complete fileName in particulars.
 #+end_org """
@@ -56,7 +54,7 @@ Module description comes here.
 #+end_org """
 ####+END:
 
-####+BEGIN: bx:icm:python:icmItem :itemType "=PyImports= " :itemTitle "*Py Library IMPORTS*"
+####+BEGIN: b:py3:cs:csItem :itemType "=PyImports= " :itemTitle "*Py Library IMPORTS*"
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  =PyImports=  [[elisp:(outline-show-subtree+toggle)][||]] *Py Library IMPORTS*  [[elisp:(org-cycle)][| ]]
 #+end_org """
@@ -74,16 +72,16 @@ Module description comes here.
 # G.icmLibsAppend = __file__
 # G.icmCmndsLibsAppend = __file__
 
-from blee.icmPlayer import bleep
+#from blee.icmPlayer import bleep
 ####+END:
 
-import __main__
+#import __main__
 
-import types
+#import types
 
 
 import os
-import sys
+#import sys
 #import select
 
 # import pwd
@@ -116,7 +114,7 @@ from bisos import bpf
 
 # import gnupg
 
-import logging
+#import logging
 
 #import shutil
 
@@ -124,40 +122,38 @@ import logging
 # import pykeepass
 #
 
-####+BEGIN: bx:icm:py3:section :title "ICM_Param: ICM Parameter (ICM_Param, ICM_ParamDict)"
-""" #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    [[elisp:(outline-show-subtree+toggle)][||]] *ICM_Param: ICM Parameter (ICM_Param, ICM_ParamDict)*  [[elisp:(org-cycle)][| ]]
-#+end_org """
+####+BEGIN: bx:cs:py3:section :title "CmndParam: ICM Parameter (CmndParam, CmndParamDict)"
+
 ####+END:
 
 
-####+BEGIN: bx:dblock:python:enum :enumName "ICM_ParamScope" :comment ""
+####+BEGIN: bx:dblock:python:enum :enumName "CmndParamScope" :comment ""
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Enum       [[elisp:(outline-show-subtree+toggle)][||]] /ICM_ParamScope/  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Enum       [[elisp:(outline-show-subtree+toggle)][||]] /CmndParamScope/  [[elisp:(org-cycle)][| ]]
 #+end_org """
 @enum.unique
-class ICM_ParamScope(enum.Enum):
+class CmndParamScope(enum.Enum):
 ####+END:
     TargetParam = 'TargetParam'
     IcmGeneralParam = 'IcmGeneralParam'
     CmndSpecificParam = 'CmndSpecificParam'
 
-# ICM_ParamScope = ucf.enum('TargetParam', 'IcmGeneralParam', 'CmndSpecificParam')
+# CmndParamScope = ucf.enum('TargetParam', 'IcmGeneralParam', 'CmndSpecificParam')
 
-####+BEGIN: bx:dblock:python:class :className "ICM_Param" :superClass "" :comment "" :classType "basic"
+####+BEGIN: bx:dblock:python:class :className "CmndParam" :superClass "" :comment "" :classType "basic"
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Cls-basic  [[elisp:(outline-show-subtree+toggle)][||]] /ICM_Param/ object  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Cls-basic  [[elisp:(outline-show-subtree+toggle)][||]] /CmndParam/ object  [[elisp:(org-cycle)][| ]]
 #+end_org """
-class ICM_Param(object):
+class CmndParam(object):
 ####+END:
-     """Representation of an Interactively Invokable Module Parameter (ICM_Param).
+     """Representation of an Interactively Invokable Module Parameter (CmndParam).
 
      An ICM Parameter is a superset of an argsparse parameter which also includes:
         - CMND relevance (Mandatory and Optional)
         - Maping onto FILE_Params
 
 
-     ICM_Param is initially used to setup ArgParse and other user-interface parameter aspects.
+     CmndParam is initially used to setup ArgParse and other user-interface parameter aspects.
      """
 
      def __init__(self,
@@ -346,7 +342,7 @@ description: {description}""".
          if not parValue:
              parValue = "unSet"
 
-         FILE_ParamWriteTo(
+         bpf.fp.FileParamWriteTo(
              parRoot=absoluteParRoot,
              parName=self.parNameGet(),
              parValue=parValue,
@@ -358,7 +354,7 @@ description: {description}""".
              'description'
          )
 
-         FV_writeToFilePathAndCreate(
+         bpf.fv.writeToFilePathAndCreate(
              filePath=varValueFullPath,
              varValue=self.parDescriptionGet(),
          )
@@ -370,19 +366,19 @@ description: {description}""".
          )
 
          for thisChoice in self.parChoicesGet():
-             FV_writeToBaseDirAndCreate(
+             bpf.fv.writeToBaseDirAndCreate(
                  baseDir=varValueBaseDir,
                  varName=thisChoice,
                  varValue="",
              )
 
-####+BEGIN: bx:dblock:python:class :className "ICM_ParamDict" :superClass "" :comment "" :classType "basic"
+####+BEGIN: bx:dblock:python:class :className "CmndParamDict" :superClass "" :comment "" :classType "basic"
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Cls-basic  [[elisp:(outline-show-subtree+toggle)][||]] /ICM_ParamDict/ object  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Cls-basic  [[elisp:(outline-show-subtree+toggle)][||]] /CmndParamDict/ object  [[elisp:(org-cycle)][| ]]
 #+end_org """
-class ICM_ParamDict(object):
+class CmndParamDict(object):
 ####+END:
-     """ICM Parameters Dictionary -- Collection of ICM_Param s can be placed in ICM_ParamDict
+     """ICM Parameters Dictionary -- Collection of CmndParam s can be placed in CmndParamDict
 
      From icmParamDict
      """
@@ -404,7 +400,7 @@ class ICM_ParamDict(object):
                     argparseLongOpt=None,
                    ):
          """        """
-         thisParam = ICM_Param(parName=parName,
+         thisParam = CmndParam(parName=parName,
                                parDescription=parDescription,
                                parDataType=parDataType,
                                parMetavar=parMetavar,
@@ -461,7 +457,7 @@ def commonIcmParamsPrep(
 ** [[elisp:(org-cycle)][| *DocStr | ] Module Common Command Line Parameters.
     #+end_org """
 
-    icmParams = ICM_ParamDict()
+    icmParams = CmndParamDict()
 
     icmParams.parDictAdd(
         parAction='append',
@@ -470,7 +466,7 @@ def commonIcmParamsPrep(
         parDataType=None,
         parDefault=[],
         parChoices=['invoke+', 'invoke-', 'monitor+', 'monitor-'],
-        parScope=ICM_ParamScope.TargetParam,
+        parScope=CmndParamScope.TargetParam,
         argparseShortOpt='-t',
         argparseLongOpt='--callTrackings',
         )
@@ -482,7 +478,7 @@ def commonIcmParamsPrep(
         parDataType=None,
         parDefault='fullRun',
         parChoices=['dryRun', 'fullRun', 'runDebug'],
-        parScope=ICM_ParamScope.TargetParam,
+        parScope=CmndParamScope.TargetParam,
         #argparseShortOpt='-r',
         argparseLongOpt='--runMode',
         )
@@ -495,7 +491,7 @@ def commonIcmParamsPrep(
         parDefault='30',
         parMetavar='ARG',
         parChoices=['1', '10', '20', '30', '40', '50',],
-        parScope=ICM_ParamScope.TargetParam,
+        parScope=CmndParamScope.TargetParam,
         argparseShortOpt='-v',
         argparseLongOpt='--verbosity',
         )
@@ -508,7 +504,7 @@ def commonIcmParamsPrep(
         parDefault=None,
         parMetavar='ARG',
         parChoices=[],
-        parScope=ICM_ParamScope.TargetParam,
+        parScope=CmndParamScope.TargetParam,
         #argparseShortOpt='-v',
         argparseLongOpt='--logFile',
         )
@@ -521,7 +517,7 @@ def commonIcmParamsPrep(
         parDefault=None,
         parMetavar='ARG',
         parChoices=[],
-        parScope=ICM_ParamScope.TargetParam,
+        parScope=CmndParamScope.TargetParam,
         #argparseShortOpt='-v',
         argparseLongOpt='--logFileLevel',
         )
@@ -534,7 +530,7 @@ def commonIcmParamsPrep(
         parDefault=None,
         parMetavar='ARG',
         parChoices=[],
-        parScope=ICM_ParamScope.TargetParam,
+        parScope=CmndParamScope.TargetParam,
         #argparseShortOpt='-v',
         argparseLongOpt='--logFileLevel',
         )
@@ -547,7 +543,7 @@ def commonIcmParamsPrep(
     #     parDefault=None,
     #     parMetavar='ARG',
     #     parChoices=None,
-    #     parScope=ICM_ParamScope.TargetParam,
+    #     parScope=CmndParamScope.TargetParam,
     #     #argparseShortOpt='-v',
     #     argparseLongOpt='--logFileLevel',
     #     )
@@ -561,7 +557,7 @@ def commonIcmParamsPrep(
         parDefault=None,
         parMetavar='ARG',
         parChoices=[],
-        parScope=ICM_ParamScope.TargetParam,
+        parScope=CmndParamScope.TargetParam,
         #argparseShortOpt='-l',
         argparseLongOpt='--load',
         )
@@ -581,7 +577,7 @@ def icmParamsToFileParamsUpdate(
 ** [[elisp:(org-cycle)][| *DocStr | ] Convert icmParams to parser
     #+end_org """
 
-    LOG_here("Updating icmParams at: {parRoot}".format(parRoot=parRoot))
+    io.log.here("Updating icmParams at: {parRoot}".format(parRoot=parRoot))
 
     for key, icmParam in icmParams.parDictGet().items():
         if ( icmParam.argsparseShortOptGet() == None )  and ( icmParam.argsparseLongOptGet() == None ):
@@ -611,10 +607,8 @@ def cmndParamsMandatoryAssert(
 
 
 
-####+BEGIN: bx:icm:python:section :title "End Of Editable Text"
-"""
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *End Of Editable Text*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
-"""
+####+BEGIN: bx:cs:python:section :title "End Of Editable Text"
+
 ####+END:
 
 ####+BEGIN: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/software/plusOrg/dblock/inserts/endOfFileControls.org"
