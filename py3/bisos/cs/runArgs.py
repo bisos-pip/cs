@@ -26,13 +26,12 @@
 * *[[elisp:(org-cycle)][| Particulars-csInfo |]]*
 #+end_org """
 import typing
-from bisos.cs import globalContext
-icmInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['bpoGpg'], }
-icmInfo['version'] = '202208073306'
-icmInfo['status']  = 'inUse'
-icmInfo['panel'] = 'bpoGpg-Panel.org'
-icmInfo['groupingType'] = 'IcmGroupingType-pkged'
-icmInfo['cmndParts'] = 'IcmCmndParts[common] IcmCmndParts[param]'
+csInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['runArgs'], }
+csInfo['version'] = '202209031708'
+csInfo['status']  = 'inUse'
+csInfo['panel'] = 'runArgs-Panel.org'
+csInfo['groupingType'] = 'IcmGroupingType-pkged'
+csInfo['cmndParts'] = 'IcmCmndParts[common] IcmCmndParts[param]'
 ####+END:
 
 """ #+begin_org
@@ -57,7 +56,7 @@ Module description comes here.
 #+end_org """
 ####+END:
 
-####+BEGIN: bx:icm:python:icmItem :itemType "=PyImports= " :itemTitle "*Py Library IMPORTS*"
+####+BEGIN: bx:cs:python:icmItem :itemType "=PyImports= " :itemTitle "*Py Library IMPORTS*"
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  =PyImports=  [[elisp:(outline-show-subtree+toggle)][||]] *Py Library IMPORTS*  [[elisp:(org-cycle)][| ]]
 #+end_org """
@@ -129,13 +128,14 @@ import logging
 # import pykeepass
 #
 
+####+BEGIN: blee:bxPanel:foldingSection :outLevel 0 :title "IcmRunArgs:: In support of Run Time CS Options --  csRunArgs_isOptionXxSet()"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*     [[elisp:(outline-show-subtree+toggle)][| _IcmRunArgs:: In support of Run Time CS Options --  csRunArgs_isOptionXxSet()_: |]]    [[elisp:(org-shifttab)][<)]] E|
+#+end_org """
+####+END:
 
 
-"""
-*  [[elisp:(org-cycle)][| ]]  /icmRunArgs/         :: *IcmRunArgs_ -- In support of Run Time ICM Options --  icmRunArgs_isOptionXxSet()* [[elisp:(org-cycle)][| ]]
-"""
-
-####+BEGIN: bx:icm:py3:func :funcName "isCallTrackingMonitorOff" :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
+####+BEGIN: bx:cs:py3:func :funcName "isCallTrackingMonitorOff" :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /isCallTrackingMonitorOff/  [[elisp:(org-cycle)][| ]]
 #+end_org """
@@ -157,7 +157,7 @@ def isCallTrackingMonitorOff(
 
     return retVal
 
-####+BEGIN: bx:icm:py3:func :funcName "isCallTrackingMonitorOn" :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
+####+BEGIN: bx:cs:py3:func :funcName "isCallTrackingMonitorOn" :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /isCallTrackingMonitorOn/  [[elisp:(org-cycle)][| ]]
 #+end_org """
@@ -185,7 +185,7 @@ def isCallTrackingMonitorOn(
 
     return retVal
 
-####+BEGIN: bx:icm:py3:func :funcName "isCallTrackingInvokeOff" :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
+####+BEGIN: bx:cs:py3:func :funcName "isCallTrackingInvokeOff" :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /isCallTrackingInvokeOff/  [[elisp:(org-cycle)][| ]]
 #+end_org """
@@ -208,7 +208,7 @@ def isCallTrackingInvokeOff(
     return retVal
 
 
-####+BEGIN: bx:icm:py3:func :funcName "isRunModeDryRun" :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
+####+BEGIN: bx:cs:py3:func :funcName "isRunModeDryRun" :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /isRunModeDryRun/  [[elisp:(org-cycle)][| ]]
 #+end_org """
@@ -230,7 +230,7 @@ def isRunModeDryRun(
 
     return retVal
 
-####+BEGIN: bx:icm:py3:func :funcName "verbosityLevel" :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
+####+BEGIN: bx:cs:py3:func :funcName "verbosityLevel" :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /verbosityLevel/  [[elisp:(org-cycle)][| ]]
 #+end_org """
@@ -255,7 +255,7 @@ def verbosityLevel(
     return level
 
 
-####+BEGIN: bx:icm:py3:func :funcName "isDocStringRequested" :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
+####+BEGIN: bx:cs:py3:func :funcName "isDocStringRequested" :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /isDocStringRequested/  [[elisp:(org-cycle)][| ]]
 #+end_org """
@@ -277,9 +277,9 @@ def isDocStringRequested(
 
     return retVal
 
-####+BEGIN: bx:icm:py3:func :funcName "loadFiles" :comment "Actualy loads the files." :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
+####+BEGIN: bx:cs:py3:func :funcName "loadFiles" :comment "Actualy loads the files." :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /loadFiles/  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /loadFiles/ =Actualy loads the files.=  [[elisp:(org-cycle)][| ]]
 #+end_org """
 def loadFiles(
 ####+END:
@@ -298,7 +298,7 @@ def loadFiles(
     #for this in icmRunArgs.loadFiles:
         #cs.loadFile(this)
 
-####+BEGIN: bx:icm:py3:func :funcName "evalFiles" :comment "Unused But Perhaps Usefull." :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
+####+BEGIN: bx:cs:py3:func :funcName "evalFiles" :comment "Unused But Perhaps Usefull." :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /evalFiles/ =Unused But Perhaps Usefull.=  [[elisp:(org-cycle)][| ]]
 #+end_org """
@@ -320,10 +320,10 @@ def evalFiles(
         f.close()
 
 
-####+BEGIN: bx:icm:python:section :title "End Of Editable Text"
-"""
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *End Of Editable Text*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
-"""
+####+BEGIN: blee:bxPanel:foldingSection :outLevel 0 :title " ~End Of Editable Text~ "
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*     [[elisp:(outline-show-subtree+toggle)][| _ ~End Of Editable Text~ _: |]]    [[elisp:(org-shifttab)][<)]] E|
+#+end_org """
 ####+END:
 
 ####+BEGIN: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/software/plusOrg/dblock/inserts/endOfFileControls.org"

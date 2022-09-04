@@ -26,12 +26,12 @@
 * *[[elisp:(org-cycle)][| Particulars-csInfo |]]*
 #+end_org """
 import typing
-icmInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['bpoGpg'], }
-icmInfo['version'] = '202208073306'
-icmInfo['status']  = 'inUse'
-icmInfo['panel'] = 'bpoGpg-Panel.org'
-icmInfo['groupingType'] = 'IcmGroupingType-pkged'
-icmInfo['cmndParts'] = 'IcmCmndParts[common] IcmCmndParts[param]'
+csInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['globalContext'], }
+csInfo['version'] = '202209034718'
+csInfo['status']  = 'inUse'
+csInfo['panel'] = 'globalContext-Panel.org'
+csInfo['groupingType'] = 'IcmGroupingType-pkged'
+csInfo['cmndParts'] = 'IcmCmndParts[common] IcmCmndParts[param]'
 ####+END:
 
 """ #+begin_org
@@ -56,7 +56,7 @@ Module description comes here.
 #+end_org """
 ####+END:
 
-####+BEGIN: bx:icm:python:icmItem :itemType "=PyImports= " :itemTitle "*Py Library IMPORTS*"
+####+BEGIN: bx:cs:python:icmItem :itemType "=PyImports= " :itemTitle "*Py Library IMPORTS*"
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  =PyImports=  [[elisp:(outline-show-subtree+toggle)][||]] *Py Library IMPORTS*  [[elisp:(org-cycle)][| ]]
 #+end_org """
@@ -130,36 +130,13 @@ import logging
 # import pykeepass
 #
 
-"""
-*  [[elisp:(org-cycle)][| ]]  /General/            :: *Common Utilities -- Constants, Variables* [[elisp:(org-cycle)][| ]]
-"""
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Class            ::  Constants    [[elisp:(org-cycle)][| ]]
-"""
 
-class Constants:
-    """ Example Usage: kpiResolution = iim.Constants(); kpiResolution.Minutes_15 = 1
-    """
-    def __setattr__(self, attr, value):
-        if hasattr(self, attr):
-            raise ValueError('Attribute %s already has a value and so cannot be written to' % attr)
+####+BEGIN: blee:bxPanel:foldingSection :outLevel 0 :title "CsGlobalContext Singleton Usage, provides global context"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*     [[elisp:(outline-show-subtree+toggle)][| _CsGlobalContext Singleton Usage, provides global context_: |]]    [[elisp:(org-shifttab)][<)]] E|
+#+end_org """
+####+END:
 
-        self.__dict__[attr] = value
-
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Class            ::  Variables    [[elisp:(org-cycle)][| ]]
-"""
-
-class Variables:
-    """ Example Usage: kpiResolution = iim.Variables(); kpiResolution.Minutes_15 = 1
-    """
-    def __setattr__(self, attr, value):
-        self.__dict__[attr] = value
-
-
-"""
-*  [[elisp:(org-cycle)][| ]]  /G_/                 :: *IcmGlobalContext (G_) -- Class, ICM Singleton Usage, provides global context* [[elisp:(org-cycle)][| ]]
-"""
 
 ####+BEGIN: bx:dblock:python:enum :enumName "ICM_GroupingType" :comment ""
 """ #+begin_org
@@ -233,10 +210,10 @@ class CsGlobalContext(object):
      logger = None
      astModuleFunctionsList = None
 
-     _icmInfo = {}
+     _csInfo = {}
 
-     usageParams = Variables
-     usageArgs = Variables
+     usageParams = bpf.types.Variables
+     usageArgs = bpf.types.Variables
 
      # ICM-Profile Specifications
      icmGroupingType = ICM_GroupingType.UnSet
@@ -267,7 +244,7 @@ class CsGlobalContext(object):
          # NOTYET, 2017 -- Review This
          if icmParamDict == None:
              pass
-             #self.__class__.icmParamDict = ICM_ParamDict()
+             #self.__class__.icmParamDict = CmndParamDict()
 
          logger = logging.getLogger(io.log.LOGGER)
          self.__class__.logger = logger
@@ -313,11 +290,11 @@ class CsGlobalContext(object):
      def auxInvokationResults(self):
          return self.__class__._auxInvokationResults
 
-     def icmInfoSet(self, icmInfo):
-         self.__class__._icmInfo = icmInfo
+     def csInfoSet(self, csInfo):
+         self.__class__._csInfo = csInfo
 
-     def icmInfo(self):
-         return self.__class__._icmInfo
+     def csInfo(self):
+         return self.__class__._csInfo
 
 
      def cmndNamesSet(self, cmnds):
@@ -356,10 +333,10 @@ def get(
     return G
 
 
-####+BEGIN: bx:icm:python:section :title "End Of Editable Text"
-"""
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *End Of Editable Text*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
-"""
+####+BEGIN: blee:bxPanel:foldingSection :outLevel 0 :title " ~End Of Editable Text~ "
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*     [[elisp:(outline-show-subtree+toggle)][| _ ~End Of Editable Text~ _: |]]    [[elisp:(org-shifttab)][<)]] E|
+#+end_org """
 ####+END:
 
 ####+BEGIN: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/software/plusOrg/dblock/inserts/endOfFileControls.org"

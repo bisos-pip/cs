@@ -26,12 +26,12 @@
 * *[[elisp:(org-cycle)][| Particulars-csInfo |]]*
 #+end_org """
 import typing
-icmInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['cs'], }
-icmInfo['version'] = '202208264142'
-icmInfo['status']  = 'inUse'
-icmInfo['panel'] = 'cs-Panel.org'
-icmInfo['groupingType'] = 'IcmGroupingType-pkged'
-icmInfo['cmndParts'] = 'IcmCmndParts[common] IcmCmndParts[param]'
+csInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['cs'], }
+csInfo['version'] = '202209033905'
+csInfo['status']  = 'inUse'
+csInfo['panel'] = 'cs-Panel.org'
+csInfo['groupingType'] = 'IcmGroupingType-pkged'
+csInfo['cmndParts'] = 'IcmCmndParts[common] IcmCmndParts[param]'
 ####+END:
 
 """ #+begin_org
@@ -56,7 +56,7 @@ Module description comes here.
 #+end_org """
 ####+END:
 
-####+BEGIN: bx:icm:python:icmItem :itemType "=PyImports= " :itemTitle "*Py Library IMPORTS*"
+####+BEGIN: bx:cs:python:icmItem :itemType "=PyImports= " :itemTitle "*Py Library IMPORTS*"
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  =PyImports=  [[elisp:(outline-show-subtree+toggle)][||]] *Py Library IMPORTS*  [[elisp:(org-cycle)][| ]]
 #+end_org """
@@ -450,7 +450,7 @@ class Cmnd(object):
             min, max = cs.arg.cmndArgPositionToMinAndMax(argPosition)
 
             if min == None:
-                # EH_problem()
+                # io.eh.problem()
                 return None
 
             if min == max:
@@ -550,7 +550,7 @@ class Cmnd(object):
 
         #print(icmRunArgs)
 
-        applicableIcmParams = ICM_ParamDict()
+        applicableIcmParams = CmndParamDict()
 
         def absorbApplicableIcmParam(icmParam, each):
             # print(f"4444 {each} {icmRunArgs.__dict__[each]}")
@@ -593,12 +593,12 @@ class Cmnd(object):
             icmParams=applicableIcmParams,
         )
 
-        FILE_ParamWriteToPath(
+        bpf.fp.FileParamWriteToPath(
             parNameFullPath=pathlib.Path(baseDir).joinpath('icmName'),
             parValue=G.icmMyName()
         )
 
-        FILE_ParamWriteToPath(
+        bpf.fp.FileParamWriteToPath(
             parNameFullPath=pathlib.Path(baseDir).joinpath('cmndName'),
             parValue=G.icmRunArgsGet().invokes[0]
         )
@@ -1070,7 +1070,7 @@ def G_main(
 
     logger = logControler.loggerGet()
 
-    logger.info('Main Started: ' + ucf.stackFrameInfoGet(1) )
+    logger.info('Main Started: ' + bpf.ast.stackFrameInfoGet(1) )
 
     G = cs.globalContext.get()
     G.globalContextSet( icmRunArgs=icmRunArgs )
@@ -1278,7 +1278,7 @@ def invokesProcAllClassed(
             try:
                 callDict[eachCmnd] = eval("{eachCmnd}".format(eachCmnd=eachCmnd))
             except NameError:
-                # print(("EH_problem -- Skipping-b eval({eachCmnd})".format(eachCmnd=eachCmnd)))
+                # print(("io.eh.problem -- Skipping-b eval({eachCmnd})".format(eachCmnd=eachCmnd)))
                 continue
 
         try:
@@ -1293,8 +1293,8 @@ def invokesProcAllClassed(
         # We tried everything and could not find any
         #
 
-        # BUG, NOTYET, EH_problem goes to -v 20
-        io.eh.EH_problem_info("Invalid Action: {invoke}"
+        # BUG, NOTYET, io.eh.problem goes to -v 20
+        io.eh.io.eh.problem_info("Invalid Action: {invoke}"
                         .format(invoke=invoke))
 
         print(("Invalid Action: {invoke}"
@@ -1313,7 +1313,7 @@ def invokesProcAllClassed(
         if csBase == "None":
             print(f"Missing csBase")
         else:
-            FILE_ParamWriteToPath(
+            bpf.fp.FileParamWriteToPath(
                 parNameFullPath=pathlib.Path(csBase).joinpath('result'),
                 parValue=outcome.results
             )
@@ -1464,7 +1464,7 @@ def cmndToFileParamsUpdate(
 
     parValue = "unSet"
 
-    FILE_ParamWriteTo(
+    bpf.fp.FileParamWriteTo(
         parRoot=absoluteParRoot,
         parName=cmndName,
         parValue=parValue,
@@ -1480,7 +1480,7 @@ def cmndToFileParamsUpdate(
             cmndName,
             attrName,
         )
-        FV_writeToFilePathAndCreate(
+        bpf.fv.writeToFilePathAndCreate(
             filePath=varValueFullPath,
             varValue=attrValue,
         )
@@ -1584,7 +1584,7 @@ Usage Pattern:
     return True
 
 
-####+BEGIN: bx:icm:python:icmItem :itemType "Global" :itemTitle "mainsClassedCmndsGlobal = None"
+####+BEGIN: bx:cs:python:icmItem :itemType "Global" :itemTitle "mainsClassedCmndsGlobal = None"
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Global     [[elisp:(outline-show-subtree+toggle)][||]] mainsClassedCmndsGlobal = None  [[elisp:(org-cycle)][| ]]
 #+end_org """
@@ -1595,10 +1595,10 @@ mainsClassedCmndsGlobal = None
 
 
 
-####+BEGIN: bx:icm:python:section :title "End Of Editable Text"
-"""
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *End Of Editable Text*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
-"""
+####+BEGIN: blee:bxPanel:foldingSection :outLevel 0 :title " ~End Of Editable Text~ "
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*     [[elisp:(outline-show-subtree+toggle)][| _ ~End Of Editable Text~ _: |]]    [[elisp:(org-shifttab)][<)]] E|
+#+end_org """
 ####+END:
 
 ####+BEGIN: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/software/plusOrg/dblock/inserts/endOfFileControls.org"

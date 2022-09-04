@@ -26,12 +26,12 @@
 * *[[elisp:(org-cycle)][| Particulars-csInfo |]]*
 #+end_org """
 import typing
-icmInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['examples'], }
-icmInfo['version'] = '202208215756'
-icmInfo['status']  = 'inUse'
-icmInfo['panel'] = 'examples-Panel.org'
-icmInfo['groupingType'] = 'IcmGroupingType-pkged'
-icmInfo['cmndParts'] = 'IcmCmndParts[common] IcmCmndParts[param]'
+csInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['examples'], }
+csInfo['version'] = '202209033556'
+csInfo['status']  = 'inUse'
+csInfo['panel'] = 'examples-Panel.org'
+csInfo['groupingType'] = 'IcmGroupingType-pkged'
+csInfo['cmndParts'] = 'IcmCmndParts[common] IcmCmndParts[param]'
 ####+END:
 
 """ #+begin_org
@@ -56,7 +56,7 @@ Module description comes here.
 #+end_org """
 ####+END:
 
-####+BEGIN: bx:icm:python:icmItem :itemType "=PyImports= " :itemTitle "*Py Library IMPORTS*"
+####+BEGIN: bx:cs:python:icmItem :itemType "=PyImports= " :itemTitle "*Py Library IMPORTS*"
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  =PyImports=  [[elisp:(outline-show-subtree+toggle)][||]] *Py Library IMPORTS*  [[elisp:(org-cycle)][| ]]
 #+end_org """
@@ -169,7 +169,7 @@ class commonExamples(cs.Cmnd):
         print(( G_myName + " -i model" ))
         print(( G_myName + " -i icmHelp" ))
         print(( G_myName + " -i icmOptionsExamples" ))
-        print(( G_myName + " -i icmInfo" ))
+        print(( G_myName + " -i csInfo" ))
         print(( G_myName + " -i icmInUpdate ./var" ))
         print(( G_myName + " -i cmndInfo cmndName" ))
         print(( G_myName + " -i cmndInfo cmndInfo" ))
@@ -316,7 +316,7 @@ def ex_gCommon(
 #+end_org """
 ####+END
 
-####+BEGIN: bx:icm:py3:section :title "Menu Sections"
+####+BEGIN: bx:cs:py3:section :title "Menu Sections"
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    [[elisp:(outline-show-subtree+toggle)][||]] *Menu Sections*  [[elisp:(org-cycle)][| ]]
 #+end_org """
@@ -367,7 +367,7 @@ def menuSubSection(
     #+end_org """
     print(("%%%%%%%  " + title + "  %%%%%%%%%%%"))
 
-####+BEGIN: bx:icm:py3:section :title "Menu Items"
+####+BEGIN: bx:cs:py3:section :title "Menu Items"
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    [[elisp:(outline-show-subtree+toggle)][||]] *Menu Items*  [[elisp:(org-cycle)][| ]]
 #+end_org """
@@ -417,7 +417,7 @@ def menuItemInsert(
     elif verbosity == 'full':
         print(( G_myName + " -v 1"  + " --callTrackings monitor+" + " --callTrackings invoke+" + " " + fullCommandLine ))
     else:
-        return io.eh.EH_critical_oops('')
+        return io.eh.io.eh.critical_oops('')
 
 ####+BEGIN: bx:cs:py3:func :funcName "csCmndLine" :funcType "extTyped" :deco "track"
 """ #+begin_org
@@ -477,7 +477,7 @@ def icmVerbosityTagToDashV(
     elif verbosity == 'full':
         result = " -v 1 --callTrackings monitor+ --callTrackings invoke+"
     else:
-        return io.eh.EH_critical_oops('')
+        return io.eh.io.eh.critical_oops('')
     return result
 
 ####+BEGIN: bx:cs:py3:func :funcName "ex_gExtCmndMenuItem" :funcType "extTyped" :deco "track"
@@ -600,10 +600,10 @@ def cmndExampleExternalCmndItem(
     print( fullCommandLine )
 
 
-####+BEGIN: bx:icm:python:section :title "End Of Editable Text"
-"""
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *End Of Editable Text*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
-"""
+####+BEGIN: blee:bxPanel:foldingSection :outLevel 0 :title " ~End Of Editable Text~ "
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*     [[elisp:(outline-show-subtree+toggle)][| _ ~End Of Editable Text~ _: |]]    [[elisp:(org-shifttab)][<)]] E|
+#+end_org """
 ####+END:
 
 ####+BEGIN: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/software/plusOrg/dblock/inserts/endOfFileControls.org"

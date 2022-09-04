@@ -7,6 +7,8 @@ from .rtInvoker import (RtInvoker)
 
 from .main import (__doc__)
 
+from .globalContext import (__doc__)
+
 from .cs import (G, Cmnd, argsparseBasedOnCsParams, G_mainWithClass,
                  cmndCallParamsValidate, cmndSubclassesNames,
                  csuList_importedModules, csuList_commonParamsSpecify,)

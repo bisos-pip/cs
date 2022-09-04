@@ -26,12 +26,12 @@
 * *[[elisp:(org-cycle)][| Particulars-csInfo |]]*
 #+end_org """
 import typing
-icmInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['bpoGpg'], }
-icmInfo['version'] = '202208073306'
-icmInfo['status']  = 'inUse'
-icmInfo['panel'] = 'bpoGpg-Panel.org'
-icmInfo['groupingType'] = 'IcmGroupingType-pkged'
-icmInfo['cmndParts'] = 'IcmCmndParts[common] IcmCmndParts[param]'
+csInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['inCmnd'], }
+csInfo['version'] = '202209031214'
+csInfo['status']  = 'inUse'
+csInfo['panel'] = 'inCmnd-Panel.org'
+csInfo['groupingType'] = 'IcmGroupingType-pkged'
+csInfo['cmndParts'] = 'IcmCmndParts[common] IcmCmndParts[param]'
 ####+END:
 
 """ #+begin_org
@@ -56,7 +56,7 @@ Module description comes here.
 #+end_org """
 ####+END:
 
-####+BEGIN: bx:icm:python:icmItem :itemType "=PyImports= " :itemTitle "*Py Library IMPORTS*"
+####+BEGIN: bx:cs:python:icmItem :itemType "=PyImports= " :itemTitle "*Py Library IMPORTS*"
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  =PyImports=  [[elisp:(outline-show-subtree+toggle)][||]] *Py Library IMPORTS*  [[elisp:(org-cycle)][| ]]
 #+end_org """
@@ -130,8 +130,8 @@ import logging
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*     [[elisp:(outline-show-subtree+toggle)][| _CmndSvcs_: |]]  Command Services Section  [[elisp:(org-shifttab)][<)]] E|
 #+end_org """
 ####+END:
-####
-####+BEGIN: bx:icm:py3:section :title "/Player Support/      :: *Framework cmnds That are expected by the ICM-Player*"
+
+####+BEGIN: bx:cs:py3:section :title "/Player Support/      :: *Framework cmnds That are expected by the ICM-Player*"
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    [[elisp:(outline-show-subtree+toggle)][||]] */Player Support/      :: *Framework cmnds That are expected by the ICM-Player**  [[elisp:(org-cycle)][| ]]
 #+end_org """
@@ -236,12 +236,12 @@ class icmInUpdate(cs.Cmnd):
         #+end_org """)
 
         if interactive:
-            G = IcmGlobalContext()
+            G = cs.globalContext.get()
             icmRunArgs = G.icmRunArgsGet()
             icmsBase = icmRunArgs.cmndArgs[0]
         else:
             if not icmsBase:
-                EH_problem_usageError("")
+                io.eh.problem_usageError("")
                 return
 
         G_myFullName = sys.argv[0]
@@ -311,7 +311,7 @@ class csInfoCmnd(cs.Cmnd):
         #     icmInBase = icmRunArgs.cmndArgs[0]
         # else:
         #     if not icmInBase:
-        #         EH_problem_usageError("")
+        #         io.eh.problem_usageError("")
         #         return
 
         print("* ICM Specified Parameters")
@@ -423,7 +423,7 @@ class visit(cs.Cmnd):
 
 
         myName=self.myName()
-        G = IcmGlobalContext()
+        G = cs.globalContext.get()
         thisOutcome = OpOutcome(invokerName=myName)
 
         thisOutcome = subProc_bash(
@@ -433,7 +433,7 @@ class visit(cs.Cmnd):
         ).out()
 
         if thisOutcome.isProblematic():
-            return(EH_badOutcome(thisOutcome))
+            return(io.eh.badOutcome(thisOutcome))
 
         return(cmndOutcome)
 
@@ -479,12 +479,12 @@ class cmndInfo(cs.Cmnd):
 
 
         myName=self.myName()
-        G = IcmGlobalContext()
+        G = cs.globalContext.get()
         thisOutcome = OpOutcome(invokerName=myName)
 
         if not cmndName:
             if not interactive:
-                EH_problem_usageError("")
+                io.eh.problem_usageError("")
                 return
             cmndName = G.icmRunArgsGet().cmndArgs[0]
 
@@ -595,12 +595,12 @@ class cmndInfoEssential(cs.Cmnd):
         #+end_org """)
 
         myName=self.myName()
-        G = IcmGlobalContext()
+        G = cs.globalContext.get()
         thisOutcome = OpOutcome(invokerName=myName)
 
         if not cmndName:
             if not interactive:
-                EH_problem_usageError("")
+                io.eh.problem_usageError("")
                 return
             cmndName = G.icmRunArgsGet().cmndArgs[0]
 
@@ -659,7 +659,7 @@ class cmndInfoEssential(cs.Cmnd):
             opResults="".join(outString)
         )
 
-####+BEGIN: bx:icm:py3:section :title "cmndsList -- List C-CMNDs and F-CMNDs in a given file and in icm librarytitle"
+####+BEGIN: bx:cs:py3:section :title "cmndsList -- List C-CMNDs and F-CMNDs in a given file and in icm librarytitle"
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    [[elisp:(outline-show-subtree+toggle)][||]] *cmndsList -- List C-CMNDs and F-CMNDs in a given file and in icm librarytitle*  [[elisp:(org-cycle)][| ]]
 #+end_org """
@@ -702,10 +702,10 @@ When interactive is false, return the list and when true print it and return the
         return allClassedCmndNames
 
 
-####+BEGIN: bx:icm:python:icmItem :itemType "Global" :itemTitle "GLOBAL Declaration Of mainsClassedCmndsGlobal = None"
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children)][|V]] [[elisp:(org-tree-to-indirect-buffer)][|>]] [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Global         :: mainsClassedCmndsGlobal = None  [[elisp:(org-cycle)][| ]]
-"""
+####+BEGIN: bx:cs:py3:section :title "GLOBAL Declaration Of mainsClassedCmndsGlobal = None"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    [[elisp:(outline-show-subtree+toggle)][||]] *GLOBAL Declaration Of mainsClassedCmndsGlobal = None*  [[elisp:(org-cycle)][| ]]
+#+end_org """
 ####+END:
 
 mainsClassedCmndsGlobal = None
@@ -865,10 +865,10 @@ class cmndClassDocStr(cs.Cmnd):
         The Cmnd class from which this is drived, includes docStr extractors.
         #+end_org """)
 
-        G = IcmGlobalContext()
+        G = cs.globalContext.get()
         if not cmndName:
             if not interactive:
-                EH_problem_usageError("")
+                io.eh.problem_usageError("")
                 return None
             cmndName = G.icmRunArgsGet().cmndArgs[0]
 
@@ -984,10 +984,10 @@ class cmndMethodDocStr(cs.Cmnd):
         The Cmnd class from which this is drived, includes docStr extractors.
         #+end_org """)
 
-        G = IcmGlobalContext()
+        G = cs.globalContext.get()
         if not cmndName:
             if not interactive:
-                EH_problem_usageError("")
+                io.eh.problem_usageError("")
                 return
             cmndName = G.icmRunArgsGet().cmndArgs[0]
 
@@ -1131,10 +1131,10 @@ class classDocStrOf(cs.Cmnd):
         return f"{thisCmnd.docStrClass()}"
 
 
-####+BEGIN: bx:icm:python:section :title "End Of Editable Text"
-"""
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *End Of Editable Text*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
-"""
+####+BEGIN: blee:bxPanel:foldingSection :outLevel 0 :title " ~End Of Editable Text~ "
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*     [[elisp:(outline-show-subtree+toggle)][| _ ~End Of Editable Text~ _: |]]    [[elisp:(org-shifttab)][<)]] E|
+#+end_org """
 ####+END:
 
 ####+BEGIN: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/software/plusOrg/dblock/inserts/endOfFileControls.org"

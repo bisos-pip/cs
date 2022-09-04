@@ -26,12 +26,12 @@
 * *[[elisp:(org-cycle)][| Particulars-csInfo |]]*
 #+end_org """
 import typing
-icmInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['bpoGpg'], }
-icmInfo['version'] = '202208073306'
-icmInfo['status']  = 'inUse'
-icmInfo['panel'] = 'bpoGpg-Panel.org'
-icmInfo['groupingType'] = 'IcmGroupingType-pkged'
-icmInfo['cmndParts'] = 'IcmCmndParts[common] IcmCmndParts[param]'
+csInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['arg'], }
+csInfo['version'] = '202209035511'
+csInfo['status']  = 'inUse'
+csInfo['panel'] = 'arg-Panel.org'
+csInfo['groupingType'] = 'IcmGroupingType-pkged'
+csInfo['cmndParts'] = 'IcmCmndParts[common] IcmCmndParts[param]'
 ####+END:
 
 """ #+begin_org
@@ -56,73 +56,16 @@ Module description comes here.
 #+end_org """
 ####+END:
 
-####+BEGIN: bx:icm:python:icmItem :itemType "=PyImports= " :itemTitle "*Py Library IMPORTS*"
+####+BEGIN: bx:cs:python:icmItem :itemType "=PyImports= " :itemTitle "*Py Library IMPORTS*"
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  =PyImports=  [[elisp:(outline-show-subtree+toggle)][||]] *Py Library IMPORTS*  [[elisp:(org-cycle)][| ]]
 #+end_org """
 ####+END:
 
 
-
-####+BEGINNOT: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/update/sw/icm/py/importUcfIcmBleepG.py"
-#from unisos import ucf
-#from unisos import icm
-
-#icm.unusedSuppressForEval(ucf.__file__)  # in case icm and ucf are not used
-
-# G = cs.IcmGlobalContext()
-# G.icmLibsAppend = __file__
-# G.icmCmndsLibsAppend = __file__
-
-from blee.icmPlayer import bleep
-####+END:
-
-import __main__
-
-import types
-
-
-import os
-import sys
-#import select
-
-# import pwd
-# import grp
-# import collections
-import enum
-#
-
-#import traceback
-
-# import collections
-
-# import pathlib
-
-# from bisos.platform import bxPlatformConfig
-# from bisos.platform import bxPlatformThis
-
-# from bisos.basics import pattern
-
 from bisos import io
 from bisos import bpf
 
-import argparse
-
-# from bisos.bpo import bpo
-#from bisos.pals import palsSis
-#from bisos.icm import fpath
-
-# from bisos import bpf
-
-# import gnupg
-
-import logging
-
-#import shutil
-
-# import pykeepass_cache
-# import pykeepass
-#
 
 ####+BEGIN: blee:bxPanel:foldingSection :outLevel 0 :sep nil :title "Commands Args" :anchor "" :extraInfo ""
 """ #+begin_org
@@ -165,10 +108,6 @@ def cmndArgPositionToMinAndMax(
         return errVal()
 
 
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Class            ::  ArgReq -- Obsoleted   [[elisp:(org-cycle)][| ]]
-"""
-#ArgReq = enum('Mandatory', 'Optional')   # Argument Requirements -- Mandatory Keyword Arguments
 ####+BEGIN: bx:dblock:python:class :className "ArgReq" :superClass "" :comment "" :classType "basic"
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Cls-basic  [[elisp:(outline-show-subtree+toggle)][||]] /ArgReq/ object  [[elisp:(org-cycle)][| ]]
@@ -197,9 +136,9 @@ class ArgReq(object):
     def mandatoryValidate(self, arg):
         """Predicate."""
         if self.isMandatory(arg):
-            EH_problem_info("Missing Mandatory Argument")
+            io.eh.problem_info("Missing Mandatory Argument")
             # It is the caller's frame that is of significance
-            raise ValueError("Missing Mandatory Argument: " + ucf.stackFrameInfoGet(2))
+            raise ValueError("Missing Mandatory Argument: " + bpf.ast.stackFrameInfoGet(2))
         return arg
 
 ####+BEGIN: blee:bxPanel:foldingSection :outLevel 0 :sep nil :title "CmndArgs: Per Command Argument" :anchor "" :extraInfo ""
@@ -339,51 +278,72 @@ class CmndArgsSpecDict(object):
          return self.__cmndArgsSpecDict[argPosition]
 
 
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  cmndArgsLengthIsNotValid    [[elisp:(org-cycle)][| ]]
-"""
+####+BEGIN: bx:cs:py3:func :funcName "cmndArgsLengthIsNotValid" :funcType "extTyped" :deco "track"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /cmndArgsLengthIsNotValid/ deco=track  [[elisp:(org-cycle)][| ]]
+#+end_org """
 @io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-def cmndArgsLengthIsNotValid(cmndArgs=ArgReq.Mandatory,
-                        expected=ArgReq.Mandatory,
-                        comparison=ArgReq.Mandatory,
-                       ):
+def cmndArgsLengthIsNotValid(
+####+END:
+        cmndArgs=ArgReq.Mandatory,
+        expected=ArgReq.Mandatory,
+        comparison=ArgReq.Mandatory,
+) -> bool:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ]
+    #+end_org """
+
     cmndArgsLen=len(cmndArgs)
     if comparison(cmndArgsLen, expected):
-        EH_critical_usageError("Bad Number Of cmndArgs: cmndArgs={cmndArgs}"
+        io.eh.critical_usageError("Bad Number Of cmndArgs: cmndArgs={cmndArgs}"
                                  .format(cmndArgs=cmndArgs))
         return(True)
     return(False)
 
-
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  cmndArgsLengthValidate    [[elisp:(org-cycle)][| ]]
-"""
+####+BEGIN: bx:cs:py3:func :funcName "cmndArgsLengthValidate" :funcType "extTyped" :deco "track"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /cmndArgsLengthValidate/ deco=track  [[elisp:(org-cycle)][| ]]
+#+end_org """
 @io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-def cmndArgsLengthValidate(cmndArgs=ArgReq.Mandatory,
-                        expected=ArgReq.Mandatory,
-                        comparison=ArgReq.Mandatory,
-                       ):
+def cmndArgsLengthValidate(
+####+END:
+        cmndArgs=ArgReq.Mandatory,
+        expected=ArgReq.Mandatory,
+        comparison=ArgReq.Mandatory,
+) -> int:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ]
+    #+end_org """
+
     cmndArgsLen=len(cmndArgs)
     if comparison(cmndArgsLen, expected):
-        EH_critical_usageError(f"Bad Number Of cmndArgs: cmndArgs={cmndArgs} cmndArgsLen={cmndArgsLen} expected={expected}")
+        io.eh.critical_usageError(f"Bad Number Of cmndArgs: cmndArgs={cmndArgs} cmndArgsLen={cmndArgsLen} expected={expected}")
         return(1)
     return(0)
 
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  int__gt    [[elisp:(org-cycle)][| ]]
-"""
 
-def int__gt(nuOfArgs,  expected):
+####+BEGIN: bx:cs:py3:func :funcName "int__gt" :funcType "extTyped" :deco "track"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /int__gt/ deco=track  [[elisp:(org-cycle)][| ]]
+#+end_org """
+@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+def int__gt(
+####+END:
+        nuOfArgs,
+        expected,
+) -> int:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ]
+    #+end_org """
     if nuOfArgs > expected:
         return True
     else:
         return False
 
-
-####+BEGIN: bx:icm:python:section :title "End Of Editable Text"
-"""
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *End Of Editable Text*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
-"""
+####+BEGIN: blee:bxPanel:foldingSection :outLevel 0 :title " ~End Of Editable Text~ "
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*     [[elisp:(outline-show-subtree+toggle)][| _ ~End Of Editable Text~ _: |]]    [[elisp:(org-shifttab)][<)]] E|
+#+end_org """
 ####+END:
 
 ####+BEGIN: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/software/plusOrg/dblock/inserts/endOfFileControls.org"

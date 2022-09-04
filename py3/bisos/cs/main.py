@@ -26,12 +26,12 @@
 * *[[elisp:(org-cycle)][| Particulars-csInfo |]]*
 #+end_org """
 import typing
-icmInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['main'], }
-icmInfo['version'] = '202208263554'
-icmInfo['status']  = 'inUse'
-icmInfo['panel'] = 'main-Panel.org'
-icmInfo['groupingType'] = 'IcmGroupingType-pkged'
-icmInfo['cmndParts'] = 'IcmCmndParts[common] IcmCmndParts[param]'
+csInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['main'], }
+csInfo['version'] = '202209033323'
+csInfo['status']  = 'inUse'
+csInfo['panel'] = 'main-Panel.org'
+csInfo['groupingType'] = 'IcmGroupingType-pkged'
+csInfo['cmndParts'] = 'IcmCmndParts[common] IcmCmndParts[param]'
 ####+END:
 
 """ #+begin_org
@@ -56,7 +56,7 @@ Module description comes here.
 #+end_org """
 ####+END:
 
-####+BEGIN: bx:icm:python:icmItem :itemType "=PyImports= " :itemTitle "*Py Library IMPORTS*"
+####+BEGIN: bx:cs:python:icmItem :itemType "=PyImports= " :itemTitle "*Py Library IMPORTS*"
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  =PyImports=  [[elisp:(outline-show-subtree+toggle)][||]] *Py Library IMPORTS*  [[elisp:(org-cycle)][| ]]
 #+end_org """
@@ -228,23 +228,23 @@ def classedCmndsDict(
     return callDict
 
 
-# G = icm.IcmGlobalContext()
+# G = cs.globalContext.get()
 
-# icmInfo = G.icmInfo()
+# csInfo = G.csInfo()
 
 # try:
-#    __main__.icmInfo
+#    __main__.csInfo
 # except AttributeError:
 #     pass
 # else:
-#     icmInfo.update(__main__.icmInfo)
+#     csInfo.update(__main__.csInfo)
 
-#     icmInfo['icmName'] = __main__.__icmName__
-#     icmInfo['version'] = __main__.__version__
-#     icmInfo['status'] = __main__.__status__
-#     icmInfo['credits'] = __main__.__credits__
+#     csInfo['icmName'] = __main__.__icmName__
+#     csInfo['version'] = __main__.__version__
+#     csInfo['status'] = __main__.__status__
+#     csInfo['credits'] = __main__.__credits__
 
-#     G.icmInfoSet(icmInfo)
+#     G.csInfoSet(csInfo)
 #
 
 # g_examples = __main__.examples  # or None
@@ -269,7 +269,7 @@ def g_csMain(
     #+end_org """
 
     G = cs.globalContext.get()
-    G.icmInfoSet(csInfo)
+    G.csInfoSet(csInfo)
 
     examples = None
     mainEntry = None
@@ -300,10 +300,10 @@ def g_csMain(
 #from bisos.cs import inCmnd
 
 
-####+BEGIN: bx:icm:python:section :title "End Of Editable Text"
-"""
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *End Of Editable Text*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
-"""
+####+BEGIN: blee:bxPanel:foldingSection :outLevel 0 :title " ~End Of Editable Text~ "
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*     [[elisp:(outline-show-subtree+toggle)][| _ ~End Of Editable Text~ _: |]]    [[elisp:(org-shifttab)][<)]] E|
+#+end_org """
 ####+END:
 
 ####+BEGIN: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/software/plusOrg/dblock/inserts/endOfFileControls.org"

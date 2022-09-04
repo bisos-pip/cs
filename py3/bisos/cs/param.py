@@ -27,7 +27,7 @@
 #+end_org """
 import typing
 csInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['param'], }
-csInfo['version'] = '202209031423'
+csInfo['version'] = '202209034512'
 csInfo['status']  = 'inUse'
 csInfo['panel'] = 'param-Panel.org'
 csInfo['groupingType'] = 'IcmGroupingType-pkged'
@@ -123,7 +123,9 @@ from bisos import bpf
 #
 
 ####+BEGIN: bx:cs:py3:section :title "CmndParam: ICM Parameter (CmndParam, CmndParamDict)"
-
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    [[elisp:(outline-show-subtree+toggle)][||]] *CmndParam: ICM Parameter (CmndParam, CmndParamDict)*  [[elisp:(org-cycle)][| ]]
+#+end_org """
 ####+END:
 
 
@@ -603,12 +605,14 @@ def cmndParamsMandatoryAssert(
     #+end_org """
 
     for key, value in paramsList.items():
-        if value == None: return(EH_critical_usageError(key))
+        if value == None: return(io.eh.critical_usageError(key))
 
 
 
-####+BEGIN: bx:cs:python:section :title "End Of Editable Text"
-
+####+BEGIN: blee:bxPanel:foldingSection :outLevel 0 :title " ~End Of Editable Text~ "
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*     [[elisp:(outline-show-subtree+toggle)][| _ ~End Of Editable Text~ _: |]]    [[elisp:(org-shifttab)][<)]] E|
+#+end_org """
 ####+END:
 
 ####+BEGIN: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/software/plusOrg/dblock/inserts/endOfFileControls.org"
