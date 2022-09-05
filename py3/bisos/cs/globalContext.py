@@ -203,8 +203,9 @@ class CsGlobalContext(object):
 
      icmArgsParser = None
 
-     #icmRunArgsThis = None
-     icmRunArgsThis = []
+     icmRunArgsThis = None
+     #icmRunArgsThis = []
+
      icmParamDict = None       # ICM Specified Parameters in g_argsExtraSpecify()
      thisFuncName = None
      logger = None

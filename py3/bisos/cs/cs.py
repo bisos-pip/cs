@@ -625,6 +625,100 @@ class Cmnd(object):
         #         break
         #     print(f"JJ {key} LL {icmParam}")
 
+
+####+BEGIN: b:py3t:cs:method :methodName "invocationValidateParams" :methodType "eType" :deco "default"
+    """
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-eType :: /invocationValidateParams/ deco=default  [[elisp:(org-cycle)][| ]]
+#+end_org """
+    @io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    def invocationValidateParams(
+####+END:
+            self,
+            rtInv: cs.RtInvoker,
+            outcome: bpf.op.Outcome,
+            callParamDict: typing.Dict[str, str],
+    )  -> bpf.op.Outcome:
+        """ #+begin_org
+** [[elisp:(org-cycle)][| DocStr| ]]  Validates invoked callParamDict against expectations and returns  outcome
+
+if =rtInv= is cli, assume that it has already been validated.
+
+Are all the mandatories present?
+Are any other than mandatories or optionals present?
+
+*** TODO Place holder,
+        #+end_org """
+
+        if callParamDict:
+            return outcome
+        # Validation comes here
+        return outcome
+
+####+BEGIN: b:py3t:cs:method :methodName "invocationValidateArgs" :methodType "eType" :deco "default"
+    """
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-eType :: /invocationValidateArgs/ deco=default  [[elisp:(org-cycle)][| ]]
+#+end_org """
+    @io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    def invocationValidateArgs(
+####+END:
+            self,
+            rtInv: cs.RtInvoker,
+            outcome: bpf.op.Outcome,
+            argsList: list[str],
+    )  -> bpf.op.Outcome:
+        """ #+begin_org
+** [[elisp:(org-cycle)][| DocStr| ]]  Validates invoked argsList against expectations and returns  outcome
+
+if =rtInv= is cli, assume that it has already been validated.
+
+Are nu of args in range?
+Are args values as expected?
+
+*** TODO Place holder,
+        #+end_org """
+
+        if argsList:
+            return outcome
+        # Validation comes here
+        return outcome
+
+
+####+BEGIN: b:py3t:cs:method :methodName "invocationValidate" :methodType "eType"  :deco "default"
+    """
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-eType :: /invocationValidate/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+    def invocationValidate(
+####+END:
+            self,
+            rtInv: cs.RtInvoker,
+            outcome: bpf.op.Outcome,
+            callParamDict: typing.Optional[typing.Dict[str, str]],
+            argsList: typing.Optional[list[str]],
+    )  -> bpf.op.Outcome:
+        """ #+begin_org
+** [[elisp:(org-cycle)][| DocStr| ]]  Returns the effectiveArgsList as a list of strings or None in case of failure.
+
+Usage Pattern:
+
+From within cmnd method -- or later from within a decorator,
+
+    if not self.invocationValidate(rtInv, outcome, callParamDict, argsList):
+       return cmndOutcome
+
+        #+end_org """
+
+        # Validate that rtInv is valid.
+
+        if callParamDict is not None:
+            self.invocationValidateParams(rtInv, outcome, callParamDict)
+
+        if argsList is not None:
+            self.invocationValidateArgs(rtInv, outcome, argsList)
+
+        return outcome
+
+
+
 ####+BEGIN: blee:bxPanel:foldingSection :outLevel 0 :sep nil :title "CS Output" :anchor ""  :extraInfo "Perhaps It Belongs In The IO Package"
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*     [[elisp:(outline-show-subtree+toggle)][| _CS Output_: |]]  Perhaps It Belongs In The IO Package  [[elisp:(org-shifttab)][<)]] E|
@@ -1128,11 +1222,14 @@ def G_mainWithClass(
     G.cmndMethodsDictSet(classedCmndsDict)
     #G.cmndFuncsDictSet(funcedCmndsDict)
 
+    rtInv = cs.RtInvoker.new_cmnd()
+    outcome = bpf.op.Outcome()
+
     runArgs.loadFiles()
 
     if len( inArgv ) == 0:
         if G_examples:
-            G_examples().cmnd()
+            G_examples().cmnd(rtInv, outcome,)
             return
 
     if icmRunArgs.invokes:
@@ -1211,11 +1308,11 @@ def G_mainWithClass(
 
     return 0
 
-####+BEGIN: bx:cs:py3:func :funcName "invokesProcAllClassed" :funcType "extTyped" :deco "track"
+####+BEGINNOT: bx:cs:py3:func :funcName "invokesProcAllClassed" :funcType "extTyped" :deco "track"
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /invokesProcAllClassed/ deco=track  [[elisp:(org-cycle)][| ]]
 #+end_org """
-@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+#@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
 def invokesProcAllClassed(
 ####+END:
         classedCmndsDict,
@@ -1239,7 +1336,7 @@ def invokesProcAllClassed(
         if invModel != "None":
             if csBase == "None":
                 print(f"BadUsage: Missing csBase, invModel={invModel}")
-                outcome = OpOutcome()
+                outcome = bpf.op.Outcome()
                 outcome.error = OpError.CmndLineUsageError
                 outcome.errInfo = f"BadUsage: Missing csBase, invModel={invModel}"
             else:
@@ -1250,7 +1347,12 @@ def invokesProcAllClassed(
             # outcome = classedCmnd().cmnd(**applicableIcmParams)
             #
             cmndKwArgs = classedCmnd().cmndCallTimeKwArgs()
-            cmndKwArgs.update({'interactive': True})
+            rtInv = cs.RtInvoker.new_cmnd()
+            outcome = bpf.op.Outcome()
+            cmndKwArgs.update({'rtInv': rtInv})
+            cmndKwArgs.update({'cmndOutcome': outcome})
+            if classedCmnd().cmndArgsLen['Max'] != 0:  # Cmnd is expecting Arguments
+                cmndKwArgs.update({'argsList': G.icmRunArgsGet().cmndArgs})
             outcome = classedCmnd().cmnd(**cmndKwArgs)
         return outcome
 
@@ -1529,6 +1631,8 @@ def cmndToFileParamsUpdate(
 
     return
 
+
+
 ####+BEGIN: bx:cs:py3:func :funcName "cmndCallParamsValidate" :funcType "extTyped" :deco "track"
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /cmndCallParamsValidate/ deco=track  [[elisp:(org-cycle)][| ]]
@@ -1537,9 +1641,8 @@ def cmndToFileParamsUpdate(
 def cmndCallParamsValidate(
 ####+END:
         callParamDict,
-        interactive,
+        rtInv: cs.RtInvoker,
         outcome=None,
-
 ):
     """ #+begin_org
 ** [[elisp:(org-cycle)][| *DocStr | ] Expected to be used in all CMNDs.
@@ -1576,7 +1679,7 @@ Usage Pattern:
             #         outcome,
             #         "Missing Non-Interactive Arg {}".format(key),
             #     )
-            if interactive:
+            if rtInv.outs:
                 exec("callParamDict[key] = IcmGlobalContext().usageParams." + key)
             # print(f"222 {callParamDict[key]}")
 
