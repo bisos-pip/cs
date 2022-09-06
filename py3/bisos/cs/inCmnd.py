@@ -27,7 +27,7 @@
 #+end_org """
 import typing
 csInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['inCmnd'], }
-csInfo['version'] = '202209031214'
+csInfo['version'] = '202209053024'
 csInfo['status']  = 'inUse'
 csInfo['panel'] = 'inCmnd-Panel.org'
 csInfo['groupingType'] = 'IcmGroupingType-pkged'
@@ -131,15 +131,52 @@ import logging
 #+end_org """
 ####+END:
 
+####+BEGIN: bx:cs:py3:section :title "Service Related Commands"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    [[elisp:(outline-show-subtree+toggle)][||]] *Service Related Commands*  [[elisp:(org-cycle)][| ]]
+#+end_org """
+####+END:
+
+####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "rpyc_csPerformer" :comment "" :parsMand "" :parsOpt "" :argsMin 0 :argsMax 0 :pyInv ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<rpyc_csPerformer>>parsMand= parsOpt= argsMin=0 argsMax=0 pyInv=
+#+end_org """
+class rpyc_csPerformer(cs.Cmnd):
+    cmndParamsMandatory = [ ]
+    cmndParamsOptional = [ ]
+    cmndArgsLen = {'Min': 0, 'Max': 0,}
+
+    @io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    def cmnd(self,
+             rtInv: cs.RtInvoker,
+             cmndOutcome: bpf.op.Outcome,
+    ) -> bpf.op.Outcome:
+
+        callParamsDict = {}
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, None).isProblematic():
+            return io.eh.badOutcome(cmndOutcome)
+####+END:
+        self.cmndDocStr(f""" #+begin_org
+** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  A starting point command.
+        #+end_org """)
+
+        # Announce that the service is being started
+        cs.rpyc.csPerform()
+
+        return(cmndOutcome)
+
+
 ####+BEGIN: bx:cs:py3:section :title "/Player Support/      :: *Framework cmnds That are expected by the ICM-Player*"
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    [[elisp:(outline-show-subtree+toggle)][||]] */Player Support/      :: *Framework cmnds That are expected by the ICM-Player**  [[elisp:(org-cycle)][| ]]
 #+end_org """
 ####+END:
 
-####+BEGIN: bx:cs:py3:cmnd:classHead :cmndName "icmLanguage" :comment "" :parsMand "" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
+
+
+####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "icmLanguage" :comment "" :parsMand "" :parsOpt "" :argsMin 0 :argsMax 0 :pyInv ""
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc    [[elisp:(outline-show-subtree+toggle)][||]] <<icmLanguage>> parsMand= parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<icmLanguage>>parsMand= parsOpt= argsMin=0 argsMax=0 pyInv=
 #+end_org """
 class icmLanguage(cs.Cmnd):
     cmndParamsMandatory = [ ]
@@ -148,17 +185,13 @@ class icmLanguage(cs.Cmnd):
 
     @io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmnd(self,
-        interactive=False,        # Can also be called non-interactively
+             rtInv: cs.RtInvoker,
+             cmndOutcome: bpf.op.Outcome,
     ) -> bpf.op.Outcome:
-        cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
 
         callParamsDict = {}
-        if not cs.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, None).isProblematic():
+            return io.eh.badOutcome(cmndOutcome)
 ####+END:
         self.cmndDocStr(f""" #+begin_org
 ** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Returns python. Part of icm framework.
@@ -172,38 +205,34 @@ class icmLanguage(cs.Cmnd):
             opResults="python"
         )
 
-    ####+BEGIN: bx:cs:py3:cmnd:classHead :cmndName "icmCmndPartIncludes" :comment "" :parsMand "" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
-    """ #+begin_org
-    *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc    [[elisp:(outline-show-subtree+toggle)][||]] <<icmCmndPartIncludes>> parsMand= parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
-    #+end_org """
-    class icmCmndPartIncludes(cs.Cmnd):
-        cmndParamsMandatory = [ ]
-        cmndParamsOptional = [ ]
-        cmndArgsLen = {'Min': 0, 'Max': 0,}
+####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "icmCmndPartIncludes" :comment "" :parsMand "" :parsOpt "" :argsMin 0 :argsMax 0 :pyInv ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<icmCmndPartIncludes>>parsMand= parsOpt= argsMin=0 argsMax=0 pyInv=
+#+end_org """
+class icmCmndPartIncludes(cs.Cmnd):
+    cmndParamsMandatory = [ ]
+    cmndParamsOptional = [ ]
+    cmndArgsLen = {'Min': 0, 'Max': 0,}
 
-        @io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-        def cmnd(self,
-            interactive=False,        # Can also be called non-interactively
-        ) -> bpf.op.Outcome:
-            cmndOutcome = self.getOpOutcome()
-            if interactive:
-                if not self.cmndLineValidate(outcome=cmndOutcome):
-                    return cmndOutcome
+    @io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    def cmnd(self,
+             rtInv: cs.RtInvoker,
+             cmndOutcome: bpf.op.Outcome,
+    ) -> bpf.op.Outcome:
 
-            callParamsDict = {}
-            if not cs.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-                return cmndOutcome
-
-    ####+END:
+        callParamsDict = {}
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, None).isProblematic():
+            return io.eh.badOutcome(cmndOutcome)
+####+END:
             self.cmndDocStr(f""" #+begin_org
     ** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  NOTYET Returns True. Part of icm framework
             #+end_org """)
 
             return(cmndOutcome)
 
-####+BEGIN: bx:cs:py3:cmnd:classHead :cmndName "icmInUpdate" :comment "" :parsMand "" :parsOpt "" :argsMin "1" :argsMax "1" :asFunc "" :interactiveP ""
+####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "icmInUpdate" :comment "" :parsMand "" :parsOpt "" :argsMin 1 :argsMax 1 :pyInv ""
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc    [[elisp:(outline-show-subtree+toggle)][||]] <<icmInUpdate>> parsMand= parsOpt= argsMin=1 argsMax=1 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<icmInUpdate>>parsMand= parsOpt= argsMin=1 argsMax=1 pyInv=
 #+end_org """
 class icmInUpdate(cs.Cmnd):
     cmndParamsMandatory = [ ]
@@ -212,24 +241,14 @@ class icmInUpdate(cs.Cmnd):
 
     @io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmnd(self,
-        interactive=False,        # Can also be called non-interactively
-        argsList=[],         # or Args-Input
+             rtInv: cs.RtInvoker,
+             cmndOutcome: bpf.op.Outcome,
+             argsList: typing.Optional[list[str]]=None,  # CsArgs
     ) -> bpf.op.Outcome:
-        cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
-            effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
-        else:
-            effectiveArgsList = argsList
 
         callParamsDict = {}
-        if not cs.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-
-        cmndArgsSpecDict = self.cmndArgsSpec()
-        if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
-            return cmndOutcome
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, argsList).isProblematic():
+            return io.eh.badOutcome(cmndOutcome)
 ####+END:
         self.cmndDocStr(f""" #+begin_org
 ** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Given a baseDir, update icmIn. "Part of icm framework.
@@ -271,9 +290,9 @@ class icmInUpdate(cs.Cmnd):
 
         return(cmndOutcome)
 
-####+BEGIN: bx:cs:py3:cmnd:classHead :cmndName "csInfoCmnd" :comment "" :parsMand "" :parsOpt "" :argsMin "1" :argsMax "1" :asFunc "" :interactiveP ""
+####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "csInfoCmnd" :comment "" :parsMand "" :parsOpt "" :argsMin 1 :argsMax 1 :pyInv ""
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc    [[elisp:(outline-show-subtree+toggle)][||]] <<csInfoCmnd>> parsMand= parsOpt= argsMin=1 argsMax=1 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<csInfoCmnd>>parsMand= parsOpt= argsMin=1 argsMax=1 pyInv=
 #+end_org """
 class csInfoCmnd(cs.Cmnd):
     cmndParamsMandatory = [ ]
@@ -282,24 +301,14 @@ class csInfoCmnd(cs.Cmnd):
 
     @io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmnd(self,
-        interactive=False,        # Can also be called non-interactively
-        argsList=[],         # or Args-Input
+             rtInv: cs.RtInvoker,
+             cmndOutcome: bpf.op.Outcome,
+             argsList: typing.Optional[list[str]]=None,  # CsArgs
     ) -> bpf.op.Outcome:
-        cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
-            effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
-        else:
-            effectiveArgsList = argsList
 
         callParamsDict = {}
-        if not cs.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-
-        cmndArgsSpecDict = self.cmndArgsSpec()
-        if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
-            return cmndOutcome
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, argsList).isProblematic():
+            return io.eh.badOutcome(cmndOutcome)
 ####+END:
         self.cmndDocStr(f""" #+begin_org
 ** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Given a baseDir, update icmIn. Part of icm framework.
@@ -358,9 +367,9 @@ class csInfoCmnd(cs.Cmnd):
 
         return(cmndOutcome)
 
-####+BEGIN: bx:cs:py3:cmnd:classHead :cmndName "version" :comment "" :parsMand "" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
+####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "version" :comment "" :parsMand "" :parsOpt "" :argsMin 0 :argsMax 0 :pyInv ""
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc    [[elisp:(outline-show-subtree+toggle)][||]] <<version>> parsMand= parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<version>>parsMand= parsOpt= argsMin=0 argsMax=0 pyInv=
 #+end_org """
 class version(cs.Cmnd):
     cmndParamsMandatory = [ ]
@@ -369,24 +378,22 @@ class version(cs.Cmnd):
 
     @io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmnd(self,
-        interactive=False,        # Can also be called non-interactively
+             rtInv: cs.RtInvoker,
+             cmndOutcome: bpf.op.Outcome,
     ) -> bpf.op.Outcome:
-        cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
 
         callParamsDict = {}
-        if not cs.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, None).isProblematic():
+            return io.eh.badOutcome(cmndOutcome)
 ####+END:
         self.cmndDocStr(f""" #+begin_org
 ** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  ICM version number.
         #+end_org """)
 
         """Version number is obtained from."""
-        if interactive:
+        __version__ = "NOTYET"
+        #if interactive:
+        if True:
             print(("* ICM-Version: {ver}".format(ver=str( __version__ ))))
             return
         else:
@@ -394,9 +401,9 @@ class version(cs.Cmnd):
 
         return(cmndOutcome)
 
-####+BEGIN: bx:cs:py3:cmnd:classHead :cmndName "visit" :comment "" :parsMand "" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
+####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "visit" :comment "" :parsMand "" :parsOpt "" :argsMin 0 :argsMax 0 :pyInv ""
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc    [[elisp:(outline-show-subtree+toggle)][||]] <<visit>> parsMand= parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<visit>>parsMand= parsOpt= argsMin=0 argsMax=0 pyInv=
 #+end_org """
 class visit(cs.Cmnd):
     cmndParamsMandatory = [ ]
@@ -405,17 +412,13 @@ class visit(cs.Cmnd):
 
     @io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmnd(self,
-        interactive=False,        # Can also be called non-interactively
+             rtInv: cs.RtInvoker,
+             cmndOutcome: bpf.op.Outcome,
     ) -> bpf.op.Outcome:
-        cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
 
         callParamsDict = {}
-        if not cs.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, None).isProblematic():
+            return io.eh.badOutcome(cmndOutcome)
 ####+END:
         self.cmndDocStr(f""" #+begin_org
 ** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Visit The ICM Module. Use emacs client to visit the ICM module.
@@ -437,9 +440,9 @@ class visit(cs.Cmnd):
 
         return(cmndOutcome)
 
-####+BEGIN: bx:cs:py3:cmnd:classHead :cmndName "cmndInfo" :comment "" :parsMand "orgLevel" :parsOpt "" :argsMin "1" :argsMax "1" :asFunc "" :interactiveP ""
+####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "cmndInfo" :comment "" :parsMand "orgLevel" :parsOpt "" :argsMin 1 :argsMax 1 :pyInv ""
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc    [[elisp:(outline-show-subtree+toggle)][||]] <<cmndInfo>> parsMand=orgLevel parsOpt= argsMin=1 argsMax=1 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<cmndInfo>>parsMand=orgLevel parsOpt= argsMin=1 argsMax=1 pyInv=
 #+end_org """
 class cmndInfo(cs.Cmnd):
     cmndParamsMandatory = [ 'orgLevel', ]
@@ -448,26 +451,15 @@ class cmndInfo(cs.Cmnd):
 
     @io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmnd(self,
-        interactive=False,        # Can also be called non-interactively
-        orgLevel=None,         # or Cmnd-Input
-        argsList=[],         # or Args-Input
+             rtInv: cs.RtInvoker,
+             cmndOutcome: bpf.op.Outcome,
+             orgLevel: typing.Optional[str]=None,  # Cs Mandatory Param
+             argsList: typing.Optional[list[str]]=None,  # CsArgs
     ) -> bpf.op.Outcome:
-        cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
-            effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
-        else:
-            effectiveArgsList = argsList
 
         callParamsDict = {'orgLevel': orgLevel, }
-        if not cs.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        orgLevel = callParamsDict['orgLevel']
-
-        cmndArgsSpecDict = self.cmndArgsSpec()
-        if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
-            return cmndOutcome
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, argsList).isProblematic():
+            return io.eh.badOutcome(cmndOutcome)
 ####+END:
         self.cmndDocStr(f""" #+begin_org
 ** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Returns a human oriented string for the specified cmndName's expected pars/args usage.
@@ -559,9 +551,9 @@ class cmndInfo(cs.Cmnd):
             opResults="".join(outString)
         )
 
-####+BEGIN: bx:cs:py3:cmnd:classHead :cmndName "cmndInfoEssential" :comment "" :parsMand "" :parsOpt "" :argsMin "1" :argsMax "1" :asFunc "" :interactiveP ""
+####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "cmndInfoEssential" :comment "" :parsMand "" :parsOpt "" :argsMin 1 :argsMax 1 :pyInv ""
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc    [[elisp:(outline-show-subtree+toggle)][||]] <<cmndInfoEssential>> parsMand= parsOpt= argsMin=1 argsMax=1 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<cmndInfoEssential>>parsMand= parsOpt= argsMin=1 argsMax=1 pyInv=
 #+end_org """
 class cmndInfoEssential(cs.Cmnd):
     cmndParamsMandatory = [ ]
@@ -570,24 +562,14 @@ class cmndInfoEssential(cs.Cmnd):
 
     @io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmnd(self,
-        interactive=False,        # Can also be called non-interactively
-        argsList=[],         # or Args-Input
+             rtInv: cs.RtInvoker,
+             cmndOutcome: bpf.op.Outcome,
+             argsList: typing.Optional[list[str]]=None,  # CsArgs
     ) -> bpf.op.Outcome:
-        cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
-            effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
-        else:
-            effectiveArgsList = argsList
 
         callParamsDict = {}
-        if not cs.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-
-        cmndArgsSpecDict = self.cmndArgsSpec()
-        if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
-            return cmndOutcome
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, argsList).isProblematic():
+            return io.eh.badOutcome(cmndOutcome)
 ####+END:
         self.cmndDocStr(f""" #+begin_org
 ** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Returns a human oriented string for the specified cmndName's expected pars/args usage.
@@ -665,9 +647,9 @@ class cmndInfoEssential(cs.Cmnd):
 #+end_org """
 ####+END:
 
-####+BEGIN: bx:cs:py3:cmnd:classHead :cmndName "cmndList_allMethods" :comment "" :parsMand "" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
+####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "cmndList_allMethods" :comment "" :parsMand "" :parsOpt "" :argsMin 0 :argsMax 0 :pyInv ""
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc    [[elisp:(outline-show-subtree+toggle)][||]] <<cmndList_allMethods>> parsMand= parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<cmndList_allMethods>>parsMand= parsOpt= argsMin=0 argsMax=0 pyInv=
 #+end_org """
 class cmndList_allMethods(cs.Cmnd):
     cmndParamsMandatory = [ ]
@@ -676,17 +658,13 @@ class cmndList_allMethods(cs.Cmnd):
 
     @io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmnd(self,
-        interactive=False,        # Can also be called non-interactively
+             rtInv: cs.RtInvoker,
+             cmndOutcome: bpf.op.Outcome,
     ) -> bpf.op.Outcome:
-        cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
 
         callParamsDict = {}
-        if not cs.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, None).isProblematic():
+            return io.eh.badOutcome(cmndOutcome)
 ####+END:
         self.cmndDocStr(f""" #+begin_org
 ** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  List All Classed-CMNDs.
@@ -710,9 +688,9 @@ When interactive is false, return the list and when true print it and return the
 
 mainsClassedCmndsGlobal = None
 
-####+BEGIN: bx:cs:py3:cmnd:classHead :cmndName "cmndList_mainsMethods" :comment "USED IN MAIN" :parsMand "" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "importedCmnds mainFileName importedCmndsFilesList" :interactiveP ""
+####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "cmndList_mainsMethods" :comment "USED IN MAIN" :parsMand "" :parsOpt "" :argsMin 0 :argsMax 0 :pyInv "importedCmnds mainFileName importedCmndsFilesList"
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc    [[elisp:(outline-show-subtree+toggle)][||]] <<cmndList_mainsMethods>> =USED IN MAIN= parsMand= parsOpt= argsMin=0 argsMax=0 asFunc=importedCmnds mainFileName importedCmndsFilesList interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<cmndList_mainsMethods>> =USED IN MAIN=parsMand= parsOpt= argsMin=0 argsMax=0 pyInv=importedCmnds mainFileName importedCmndsFilesList
 #+end_org """
 class cmndList_mainsMethods(cs.Cmnd):
     cmndParamsMandatory = [ ]
@@ -721,21 +699,16 @@ class cmndList_mainsMethods(cs.Cmnd):
 
     @io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmnd(self,
-        interactive=False,        # Can also be called non-interactively
-        importedCmnds=None,         # asFunc when interactive==False
-        mainFileName=None,         # asFunc when interactive==False
-        importedCmndsFilesList=None,         # asFunc when interactive==False
+             rtInv: cs.RtInvoker,
+             cmndOutcome: bpf.op.Outcome,
+             importedCmnds: typing.Any=None,   # pyInv Argument
+             mainFileName: typing.Any=None,   # pyInv Argument
+             importedCmndsFilesList: typing.Any=None,   # pyInv Argument
     ) -> bpf.op.Outcome:
-        cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
-
-        callParamsDict = {}
-        if not cs.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-
         """USED IN MAIN"""
+        callParamsDict = {}
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, None).isProblematic():
+            return io.eh.badOutcome(cmndOutcome)
 ####+END:
         self.cmndDocStr(f""" #+begin_org
 ** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Is based on subclasses of Cmnd and which are in the main module.
@@ -774,16 +747,17 @@ importedCmndsList was added later with icmMainProxy.
             set(relevantClasses),
         )
 
-        if interactive:
+        #if rtInv.outs: NOTYET
+        if False:
             bpf.ast.listPrintItems(mainsClassedCmnds)
 
         mainsClassedCmndsGlobal = mainsClassedCmnds
 
         return mainsClassedCmnds
 
-####+BEGIN: bx:cs:py3:cmnd:classHead :cmndName "cmndList_libsMethods" :comment "" :parsMand "" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
+####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "cmndList_libsMethods" :comment "" :parsMand "" :parsOpt "" :argsMin 0 :argsMax 0 :pyInv ""
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc    [[elisp:(outline-show-subtree+toggle)][||]] <<cmndList_libsMethods>> parsMand= parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<cmndList_libsMethods>>parsMand= parsOpt= argsMin=0 argsMax=0 pyInv=
 #+end_org """
 class cmndList_libsMethods(cs.Cmnd):
     cmndParamsMandatory = [ ]
@@ -792,17 +766,13 @@ class cmndList_libsMethods(cs.Cmnd):
 
     @io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmnd(self,
-        interactive=False,        # Can also be called non-interactively
+             rtInv: cs.RtInvoker,
+             cmndOutcome: bpf.op.Outcome,
     ) -> bpf.op.Outcome:
-        cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
 
         callParamsDict = {}
-        if not cs.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, None).isProblematic():
+            return io.eh.badOutcome(cmndOutcome)
 ####+END:
         self.cmndDocStr(f""" #+begin_org
 ** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  List All NAMES of C-CMNDs of the Libs Module.
@@ -829,9 +799,9 @@ class cmndList_libsMethods(cs.Cmnd):
 
         return libsClassedCmnds
 
-####+BEGIN: bx:cs:py3:cmnd:classHead :cmndName "cmndClassDocStr" :comment "" :parsMand "" :parsOpt "" :argsMin "0" :argsMax "1" :asFunc "cmndName" :interactiveP ""
+####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "cmndClassDocStr" :comment "" :parsMand "" :parsOpt "" :argsMin 0 :argsMax 1 :pyInv "cmndName"
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc    [[elisp:(outline-show-subtree+toggle)][||]] <<cmndClassDocStr>> parsMand= parsOpt= argsMin=0 argsMax=1 asFunc=cmndName interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<cmndClassDocStr>>parsMand= parsOpt= argsMin=0 argsMax=1 pyInv=cmndName
 #+end_org """
 class cmndClassDocStr(cs.Cmnd):
     cmndParamsMandatory = [ ]
@@ -840,25 +810,15 @@ class cmndClassDocStr(cs.Cmnd):
 
     @io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmnd(self,
-        interactive=False,        # Can also be called non-interactively
-        argsList=[],         # or Args-Input
-        cmndName=None,         # asFunc when interactive==False
+             rtInv: cs.RtInvoker,
+             cmndOutcome: bpf.op.Outcome,
+             argsList: typing.Optional[list[str]]=None,  # CsArgs
+             cmndName: typing.Any=None,   # pyInv Argument
     ) -> bpf.op.Outcome:
-        cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
-            effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
-        else:
-            effectiveArgsList = argsList
 
         callParamsDict = {}
-        if not cs.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-
-        cmndArgsSpecDict = self.cmndArgsSpec()
-        if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
-            return cmndOutcome
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, argsList).isProblematic():
+            return io.eh.badOutcome(cmndOutcome)
 ####+END:
         self.cmndDocStr(f""" #+begin_org
 ** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Given a list of cmnds as Args, for each return the the class docStr.
@@ -881,9 +841,9 @@ class cmndClassDocStr(cs.Cmnd):
 
         return docStr
 
-####+BEGIN: bx:cs:py3:cmnd:classHead :modPrefix "" :cmndName "cmndHelp" :comment "" :parsMand "" :parsOpt "" :argsMin "1" :argsMax "1" :asFunc "" :interactiveP ""
+####+BEGIN: b:py3:cs:cmnd/classHead :modPrefix "" :cmndName "cmndHelp" :comment "" :parsMand "" :parsOpt "" :argsMin 1 :argsMax 1 :pyInv ""
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc    [[elisp:(outline-show-subtree+toggle)][||]] <<cmndHelp>> parsMand= parsOpt= argsMin=1 argsMax=1 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<cmndHelp>>parsMand= parsOpt= argsMin=1 argsMax=1 pyInv=
 #+end_org """
 class cmndHelp(cs.Cmnd):
     cmndParamsMandatory = [ ]
@@ -892,24 +852,14 @@ class cmndHelp(cs.Cmnd):
 
     @io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmnd(self,
-        interactive=False,        # Can also be called non-interactively
-        argsList=[],         # or Args-Input
+             rtInv: cs.RtInvoker,
+             cmndOutcome: bpf.op.Outcome,
+             argsList: typing.Optional[list[str]]=None,  # CsArgs
     ) -> bpf.op.Outcome:
-        cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
-            effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
-        else:
-            effectiveArgsList = argsList
 
         callParamsDict = {}
-        if not cs.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-
-        cmndArgsSpecDict = self.cmndArgsSpec()
-        if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
-            return cmndOutcome
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, argsList).isProblematic():
+            return io.eh.badOutcome(cmndOutcome)
 ####+END:
         self.cmndDocStr(f""" #+begin_org
 ** [[elisp:(org-cycle)][| *CmndDesc:* | ]]
@@ -926,9 +876,9 @@ class cmndHelp(cs.Cmnd):
         return docStr
 
 
-####+BEGIN: bx:cs:py3:cmnd:classHead :modPrefix "" :cmndName "null" :comment "" :parsMand "" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
+####+BEGIN: b:py3:cs:cmnd/classHead :modPrefix "" :cmndName "null" :comment "" :parsMand "" :parsOpt "" :argsMin 0 :argsMax 0 :pyInv ""
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc    [[elisp:(outline-show-subtree+toggle)][||]] <<null>> parsMand= parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<null>>parsMand= parsOpt= argsMin=0 argsMax=0 pyInv=
 #+end_org """
 class null(cs.Cmnd):
     cmndParamsMandatory = [ ]
@@ -937,17 +887,13 @@ class null(cs.Cmnd):
 
     @io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmnd(self,
-        interactive=False,        # Can also be called non-interactively
+             rtInv: cs.RtInvoker,
+             cmndOutcome: bpf.op.Outcome,
     ) -> bpf.op.Outcome:
-        cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
 
         callParamsDict = {}
-        if not cs.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, None).isProblematic():
+            return io.eh.badOutcome(cmndOutcome)
 ####+END:
         self.cmndDocStr(f""" #+begin_org
 ** [[elisp:(org-cycle)][| *CmndDesc:* | ]] A command that does nothing. The null Command. -- Can be combined with --load.
@@ -956,9 +902,9 @@ class null(cs.Cmnd):
 
         return cmndOutcome
 
-####+BEGIN: bx:cs:py3:cmnd:classHead :cmndName "cmndMethodDocStr" :comment "" :parsMand "" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
+####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "cmndMethodDocStr" :comment "" :parsMand "" :parsOpt "" :argsMin 0 :argsMax 0 :pyInv ""
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc    [[elisp:(outline-show-subtree+toggle)][||]] <<cmndMethodDocStr>> parsMand= parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<cmndMethodDocStr>>parsMand= parsOpt= argsMin=0 argsMax=0 pyInv=
 #+end_org """
 class cmndMethodDocStr(cs.Cmnd):
     cmndParamsMandatory = [ ]
@@ -967,17 +913,13 @@ class cmndMethodDocStr(cs.Cmnd):
 
     @io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmnd(self,
-        interactive=False,        # Can also be called non-interactively
+             rtInv: cs.RtInvoker,
+             cmndOutcome: bpf.op.Outcome,
     ) -> bpf.op.Outcome:
-        cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
 
         callParamsDict = {}
-        if not cs.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, None).isProblematic():
+            return io.eh.badOutcome(cmndOutcome)
 ####+END:
         self.cmndDocStr(f""" #+begin_org
 ** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  "Given a list of cmnds as Args, for each return the cmnd() funcs docStr.
@@ -1001,9 +943,9 @@ class cmndMethodDocStr(cs.Cmnd):
 
         return docStr
 
-####+BEGIN: bx:cs:py3:cmnd:classHead :cmndName "cmndDocStrShort" :comment "" :parsMand "" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
+####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "cmndDocStrShort" :comment "" :parsMand "" :parsOpt "" :argsMin 0 :argsMax 0 :pyInv ""
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc    [[elisp:(outline-show-subtree+toggle)][||]] <<cmndDocStrShort>> parsMand= parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<cmndDocStrShort>>parsMand= parsOpt= argsMin=0 argsMax=0 pyInv=
 #+end_org """
 class cmndDocStrShort(cs.Cmnd):
     cmndParamsMandatory = [ ]
@@ -1012,17 +954,13 @@ class cmndDocStrShort(cs.Cmnd):
 
     @io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmnd(self,
-        interactive=False,        # Can also be called non-interactively
+             rtInv: cs.RtInvoker,
+             cmndOutcome: bpf.op.Outcome,
     ) -> bpf.op.Outcome:
-        cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
 
         callParamsDict = {}
-        if not cs.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, None).isProblematic():
+            return io.eh.badOutcome(cmndOutcome)
 ####+END:
         self.cmndDocStr(f""" #+begin_org
 ** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Given a list of cmnds as Args, for each return the the class docStr.
@@ -1040,9 +978,9 @@ class cmndDocStrShort(cs.Cmnd):
         if interactive: print(shortDocStr)
         return shortDocStr
 
-####+BEGIN: bx:cs:py3:cmnd:classHead :cmndName "cmndDocStrFull" :comment "" :parsMand "" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "cmndName" :interactiveP ""
+####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "cmndDocStrFull" :comment "" :parsMand "" :parsOpt "" :argsMin 0 :argsMax 0 :pyInv "cmndName"
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc    [[elisp:(outline-show-subtree+toggle)][||]] <<cmndDocStrFull>> parsMand= parsOpt= argsMin=0 argsMax=0 asFunc=cmndName interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<cmndDocStrFull>>parsMand= parsOpt= argsMin=0 argsMax=0 pyInv=cmndName
 #+end_org """
 class cmndDocStrFull(cs.Cmnd):
     cmndParamsMandatory = [ ]
@@ -1051,18 +989,14 @@ class cmndDocStrFull(cs.Cmnd):
 
     @io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmnd(self,
-        interactive=False,        # Can also be called non-interactively
-        cmndName=None,         # asFunc when interactive==False
+             rtInv: cs.RtInvoker,
+             cmndOutcome: bpf.op.Outcome,
+             cmndName: typing.Any=None,   # pyInv Argument
     ) -> bpf.op.Outcome:
-        cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
 
         callParamsDict = {}
-        if not cs.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, None).isProblematic():
+            return io.eh.badOutcome(cmndOutcome)
 ####+END:
         self.cmndDocStr(f""" #+begin_org
 ** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Given a list of cmnds as Args, for each return the cmnd() funcs docStr.
@@ -1090,9 +1024,9 @@ class cmndDocStrFull(cs.Cmnd):
 #
 # NOTYET. Added on 12/16/2021.
 
-####+BEGIN: bx:cs:py3:cmnd:classHead :cmndName "classDocStrOf" :comment "" :parsMand "" :parsOpt "" :argsMin "1" :argsMax "1" :asFunc "" :interactiveP ""
+####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "classDocStrOf" :comment "" :parsMand "" :parsOpt "" :argsMin 1 :argsMax 1 :pyInv ""
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc    [[elisp:(outline-show-subtree+toggle)][||]] <<classDocStrOf>> parsMand= parsOpt= argsMin=1 argsMax=1 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<classDocStrOf>>parsMand= parsOpt= argsMin=1 argsMax=1 pyInv=
 #+end_org """
 class classDocStrOf(cs.Cmnd):
     cmndParamsMandatory = [ ]
@@ -1101,24 +1035,14 @@ class classDocStrOf(cs.Cmnd):
 
     @io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmnd(self,
-        interactive=False,        # Can also be called non-interactively
-        argsList=[],         # or Args-Input
+             rtInv: cs.RtInvoker,
+             cmndOutcome: bpf.op.Outcome,
+             argsList: typing.Optional[list[str]]=None,  # CsArgs
     ) -> bpf.op.Outcome:
-        cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
-            effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
-        else:
-            effectiveArgsList = argsList
 
         callParamsDict = {}
-        if not cs.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-
-        cmndArgsSpecDict = self.cmndArgsSpec()
-        if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
-            return cmndOutcome
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, argsList).isProblematic():
+            return io.eh.badOutcome(cmndOutcome)
 ####+END:
         self.cmndDocStr(f""" #+begin_org
 ** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  fullUpdate docString is here.

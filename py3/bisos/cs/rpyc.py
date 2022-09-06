@@ -62,91 +62,66 @@ Module description comes here.
 #+end_org """
 ####+END:
 
-
-
-####+BEGINNOT: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/update/sw/icm/py/importUcfIcmBleepG.py"
-#from unisos import ucf
-#from unisos import icm
-
-#icm.unusedSuppressForEval(ucf.__file__)  # in case icm and ucf are not used
-
-# G = cs.IcmGlobalContext()
-# G.icmLibsAppend = __file__
-# G.icmCmndsLibsAppend = __file__
-
-from blee.icmPlayer import bleep
-####+END:
-
-import __main__
-
-import types
-
-
-import os
-import sys
-#import select
-
-# import pwd
-# import grp
-# import collections
-import enum
-#
-
-#import traceback
-
-# import collections
-
-# import pathlib
-
-# from bisos.platform import bxPlatformConfig
-# from bisos.platform import bxPlatformThis
-
-# from bisos.basics import pattern
-
+from bisos import cs
 from bisos import io
 from bisos import bpf
 
-import argparse
+import rpyc
+from rpyc.utils.server import ThreadedServer
+#from rpyc.utils.authenticators import SSLAuthenticator
 
-# from bisos.bpo import bpo
-#from bisos.pals import palsSis
-#from bisos.icm import fpath
-
-# from bisos import bpf
-
-# import gnupg
-
-import logging
-
-#import shutil
-
-# import pykeepass_cache
-# import pykeepass
-#
-
-####+BEGIN: bx:cs:py3:func :funcName "invoke" :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
+####+BEGIN: bx:dblock:python:class :className "rpyc_CsService" :superClass "rpyc.Service" :comment "" :classType "RPyC"
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /invoke/  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Cls-RPyC   [[elisp:(outline-show-subtree+toggle)][||]] /rpyc_CsService/ rpyc.Service  [[elisp:(org-cycle)][| ]]
 #+end_org """
-def invoke(
+class rpyc_CsService(rpyc.Service):
 ####+END:
-) -> str:
     """ #+begin_org
-** [[elisp:(org-cycle)][| *DocStr | ] Reads stdin. Returns a string. -- Uses mutable list.
+** [[elisp:(org-cycle)][| DocStr| ]]  Class Doc String
     #+end_org """
 
-    stdinAsStr = ""
-    #if select.select([sys.stdin, ], [], [], 0.0)[0]:
-    if not sys.stdin.isatty():
+    def exposed_svcCmnd(self, cmndClassName, *v, **k):
+        print(f"svcCmnd")
+        cmndClass = cs.cmndNameToClass(cmndClassName)
+        cmndClass().cmnd(*v, **k)
 
-        msgAsList = []
-        for line in sys.stdin:
-            msgAsList.append(str(line))
+####+BEGIN: bx:cs:py3:func :funcName "csPerform" :funcType "extTyped" :retType "extTyped" :deco "default" :argsList ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /csPerform/ deco=default  [[elisp:(org-cycle)][| ]]
+#+end_org """
+@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+def csPerform(
+####+END:
+) -> None:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ]
+    #+end_org """
 
-        stdinAsStr = str("".join(msgAsList),)
+    server = ThreadedServer(rpyc_CsService, port=12345)
+    server.start()
 
-    return stdinAsStr
 
+####+BEGIN: bx:cs:py3:func :funcName "csInvoke" :funcType "extTyped" :retType "extTyped" :deco "default" :argsList ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /csInvoke/ deco=default  [[elisp:(org-cycle)][| ]]
+#+end_org """
+@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+def csInvoke(
+        cmndClass: cs.Cmnd,
+        **cmndKwArgs,
+####+END:
+) -> bpf.op.Outcome:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ]
+    #+end_org """
+
+
+    port=12345
+
+    conn = rpyc.connect("localhost", port=port)
+    outcome = conn.root.svcCmnd(cmndClass().__class__.__name__, **cmndKwArgs)
+
+    return outcome
 
 ####+BEGIN: blee:bxPanel:foldingSection :outLevel 0 :title " ~End Of Editable Text~ "
 """

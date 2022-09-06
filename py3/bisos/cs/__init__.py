@@ -11,7 +11,8 @@ from .globalContext import (__doc__)
 
 from .cs import (G, Cmnd, argsparseBasedOnCsParams, G_mainWithClass,
                  cmndCallParamsValidate, cmndSubclassesNames,
-                 csuList_importedModules, csuList_commonParamsSpecify,)
+                 csuList_importedModules, csuList_commonParamsSpecify,
+                 cmndNameToClass,)
 
 from .examples import (__doc__)
 
@@ -21,3 +22,4 @@ from .examples import (__doc__)
 
 from .arg import (__doc__)
 
+from .rpyc import (__doc__)

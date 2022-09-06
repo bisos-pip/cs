@@ -951,6 +951,14 @@ def argsCommonProc(
          )
 
      parser.add_argument(
+         '--ex_invModel',
+         dest='ex_invModel',
+         action='store',
+         default='None',
+         help="TBD",
+         )
+
+     parser.add_argument(
          '--perfModel',
          dest='perfModel',
          action='store',
@@ -1333,7 +1341,34 @@ def invokesProcAllClassed(
         invModel = icmRunArgs.invModel  # This can be a "None" string but not a None
         csBase = icmRunArgs.csBase
 
-        if invModel != "None":
+        outcome = bpf.op.Outcome()
+
+        if invModel == "None":
+            #
+            # applicableIcmParams = classedCmnd().absorbApplicableIcmParam()
+            # outcome = classedCmnd().cmnd(**applicableIcmParams)
+            #
+            cmndKwArgs = classedCmnd().cmndCallTimeKwArgs()
+            rtInv = cs.RtInvoker.new_cmnd()
+            cmndKwArgs.update({'rtInv': rtInv})
+            cmndKwArgs.update({'cmndOutcome': outcome})
+            if classedCmnd().cmndArgsLen['Max'] != 0:  # Cmnd is expecting Arguments
+                cmndKwArgs.update({'argsList': G.icmRunArgsGet().cmndArgs})
+            outcome = classedCmnd().cmnd(**cmndKwArgs)
+
+        elif invModel == "rpyc":
+            print("in rpyc")
+
+            cmndKwArgs = classedCmnd().cmndCallTimeKwArgs()
+            rtInv = cs.RtInvoker.new_cmnd()
+            cmndKwArgs.update({'rtInv': rtInv})
+            cmndKwArgs.update({'cmndOutcome': outcome})
+            if classedCmnd().cmndArgsLen['Max'] != 0:  # Cmnd is expecting Arguments
+                cmndKwArgs.update({'argsList': G.icmRunArgsGet().cmndArgs})
+
+            outcome = cs.rpyc.csInvoke(classedCmnd, **cmndKwArgs)
+
+        else:
             if csBase == "None":
                 print(f"BadUsage: Missing csBase, invModel={invModel}")
                 outcome = bpf.op.Outcome()
@@ -1341,19 +1376,7 @@ def invokesProcAllClassed(
                 outcome.errInfo = f"BadUsage: Missing csBase, invModel={invModel}"
             else:
                 outcome = classedCmnd().invModel(csBase)
-        else:
-            #
-            # applicableIcmParams = classedCmnd().absorbApplicableIcmParam()
-            # outcome = classedCmnd().cmnd(**applicableIcmParams)
-            #
-            cmndKwArgs = classedCmnd().cmndCallTimeKwArgs()
-            rtInv = cs.RtInvoker.new_cmnd()
-            outcome = bpf.op.Outcome()
-            cmndKwArgs.update({'rtInv': rtInv})
-            cmndKwArgs.update({'cmndOutcome': outcome})
-            if classedCmnd().cmndArgsLen['Max'] != 0:  # Cmnd is expecting Arguments
-                cmndKwArgs.update({'argsList': G.icmRunArgsGet().cmndArgs})
-            outcome = classedCmnd().cmnd(**cmndKwArgs)
+
         return outcome
 
     for invoke in icmRunArgs.invokes:

@@ -205,6 +205,8 @@ def commonBrief(
     print(( G_myName + " -i examples" + " |" + " icmToEmlVisit"))
     print(( G_myName + " -i visit"))
     print(( """emlVisit -v -n showRun -i gotoPanel """ + G_myFullName))
+    print(f"{G_myName} -i rpyc_csPerformer  & # in background Start rpyc CS Service")
+    print(f"""{G_myName} --ex_invModel="rpyc" -i examples""")
 
     menuChapter('*ICM Blee Player Invokations*')
     io.ann.ANN_write("icmPlayer.sh -h -v -n showRun -i grouped {G_myName}".format(G_myName=G_myName))
@@ -531,14 +533,20 @@ def cmndInsert(
         icmName: str='',
 ) -> None:
     """ #+begin_org
-** [[elisp:(org-cycle)][| *DocStr | ] Returns cmndLine as string.
+** [[elisp:(org-cycle)][| *DocStr | ] Constructs cmndLine based on positional args and specific other args. Calls ~menuItemInsert~.
+    For services, it looks at invModel and roSap.
     #+end_org """
+
+    rpycEnable = ""
+
+    if cs.G.icmRunArgsGet().ex_invModel == "rpyc":
+        rpycEnable = " --invModel=rpyc"
 
     cmndParsStr = ""
     for key in cmndPars:
         cmndParsStr += """--{parName}="{parValue}" """.format(parName=key, parValue=cmndPars[key])
 
-    cmndLine = f"""{cmndParsStr} -i {cmndName} {cmndArgs}"""
+    cmndLine = f"""{cmndParsStr}{rpycEnable} -i {cmndName} {cmndArgs}"""
 
     menuItemInsert(
         commandLine=cmndLine,

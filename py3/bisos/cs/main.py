@@ -116,7 +116,7 @@ from bisos import cs
 #from bisos.pals import palsSis
 #from bisos.icm import fpath
 
-# from bisos import bpf
+from bisos import bpf
 
 # import gnupg
 
@@ -189,9 +189,13 @@ def classedCmndsDict(
     #print(importedCmndsFilesList)
     #print(importedTagsList)
 
+    rtInv = cs.RtInvoker.new_cmnd()
+    outcome = bpf.op.Outcome()
+
     callDict = dict()
     for eachCmnd in inCmnd.cmndList_mainsMethods().cmnd(
-            interactive=False,
+            rtInv=rtInv,
+            cmndOutcome=outcome,
             importedCmnds={}, # __main__.g_importedCmnds -- Being obsoleted
             mainFileName=__main__.__file__,
             importedCmndsFilesList=importedCmndsFilesList,
